@@ -84,7 +84,8 @@ export default {
                 this.error = error
                 console.log(error)
             })
-
+            window.location.reload()
+            this.$router.push('/recipes')
         }
     }
 }

@@ -3,23 +3,24 @@
         <div>
             <router-link to="/">Home</router-link>
             <router-link to="/recipes">Recipes</router-link>
-            <router-link to="/create">Create</router-link>
+            <router-link to="/create" v-if="is_logged">Create</router-link>
         </div>
         <div>
             <router-link to="/register" v-if="!is_logged">Register</router-link>
             <router-link to="/login" v-if="!is_logged">Login</router-link>
 
-            <router-link to="/profile">Profile</router-link>
+            <router-link to="/profile" v-if="is_logged">Profile</router-link>
             <button @click="logout()" v-if="is_logged">Logout</button>
 
         </div>
-
     </nav>
     <router-view/>
 </template>
 
 <script>
 import axios from "axios";
+
+
 export default {
     data(){
         return{
@@ -30,10 +31,7 @@ export default {
         logout() {
             axios.defaults.headers.common["Authorization"] = ""
             localStorage.removeItem("token")
-            localStorage.removeItem("username")
-            localStorage.removeItem("userid")
             console.log('logout')
-            this.$router.push('/')
         },
     },
 }

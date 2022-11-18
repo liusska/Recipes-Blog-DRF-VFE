@@ -10,7 +10,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        # serializer.save(author=self.request.user)
         if self.request.user.is_authenticated:
             instance = serializer.save(author=self.request.user)
             print(self.request.user)

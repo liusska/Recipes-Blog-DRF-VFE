@@ -3,6 +3,8 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import SignUpSerializer
+from recipe.models import Recipe
+from recipe.serializers import RecipeSerializer
 
 
 class RegisterView(generics.GenericAPIView):
@@ -36,7 +38,7 @@ class LoginView(APIView):
             print(f"Logged user: {user}")
             response = {
                 "message": "Login Successful",
-                "token": user.auth_token.key,
+                "token": "Token " + user.auth_token.key,
                 "user": {
                     "email": user.email,
                     "username": user.username,
@@ -63,3 +65,11 @@ class LogoutView(APIView):
             "message": "User logout successfully"
         }
         return response
+
+
+class UserRecipeView(APIView):
+    def get(self, request):
+        recipes = Recipe.objects.filter(author=self.request.user.id)
+        serializer = RecipeSerializer(recipes, many=True)
+        return Response(data=serializer.data,  status=status.HTTP_200_OK)
+

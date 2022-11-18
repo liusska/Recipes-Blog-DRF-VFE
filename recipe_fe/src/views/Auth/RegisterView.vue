@@ -40,11 +40,14 @@ export default {
                 .post('/auth/register/', formData)
                 .then(response => {
                     console.log(response)
-                    this.$router.push('/login/')
+
                 })
                 .catch(error => {
                     console.log(error)
                 })
+            this.$router.push('/login')
+
+
         }
     }
 }

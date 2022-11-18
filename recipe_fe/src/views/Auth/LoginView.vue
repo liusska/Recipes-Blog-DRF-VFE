@@ -32,8 +32,10 @@ export default {
             }
             const response = await axios.post('/auth/login/', formData);
             localStorage.setItem('token', response.data.token)
+            localStorage.getItem('token')
             this.$router.push('/')
             console.log(response);
+
         }
     },
     unmounted() {

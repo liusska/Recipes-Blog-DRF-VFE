@@ -44,5 +44,6 @@ class SignUpSerializer(serializers.ModelSerializer):
         user = super().create(validated_data)
         user.set_password(password)
         user.save()
-        Token.objects.create(user=user)
+        token = Token.objects.create(user=user)
+        print(token)
         return user
