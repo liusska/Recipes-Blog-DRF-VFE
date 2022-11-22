@@ -1,4 +1,5 @@
 <template>
+    <NavBar/>
     <form @submit.prevent="registerFunc">
         <label>Email</label>
         <input type="email" v-model="email">
@@ -18,9 +19,11 @@
 
 <script>
 import axios from 'axios'
+import NavBar from "@/components/NavBar";
 
 export default {
     name: 'Register',
+    components: {NavBar},
     data() {
         return {
             email: '',

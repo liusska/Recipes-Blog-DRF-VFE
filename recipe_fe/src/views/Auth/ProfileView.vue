@@ -1,6 +1,8 @@
 <template>
-    <h1>User Recipe Posts</h1>
+    <NavBar />
+
     <div v-if="recipes.length" class="gallery">
+        <h1><span class="username-field">{{user}}</span> Recipe Posts</h1>
         <div v-for="recipe in recipes" :key="recipe.id">
             <div class="card">
                 <img :src="recipe.photo" alt="">
@@ -9,33 +11,59 @@
                         <h2>{{ recipe.title }}</h2>
                     </router-link>
 
-                    <p>Category: {{ recipe.category }}</p>
-                    <p>Ingredients: {{ recipe.ingredients }}</p>
-                    <p>Time: {{ recipe.time_in_minutes}} min</p>
-                    <p>author: {{ recipe.author }}</p>
-                    <p>Published: {{ recipe.publication_date}}</p>
+                    <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
+                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>
+                    <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
+                    <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
+                    <p><span class="field">Published: </span>
+                        <span class="value">
+                            {{recipe.publication_date.split('T')[0]}}
+                            {{ (recipe.publication_date.split('T')[1]).split('.')[0]}}
+                        </span></p>
                 </div>
             </div>
-
         </div>
     </div>
+
     <h1 v-else>*** No content yet ***</h1>
+
 </template>
 
 <script>
 import axios from "axios";
+import NavBar from "@/components/NavBar";
 
 export default {
     name: "ProfileView",
+    components: { NavBar },
     data() {
         return {
             recipes: [],
+            user: null,
         }
     },
     mounted() {
-        axios.get('/auth/user/')
-        .then(data => this.recipes = data.data)
-        .catch(err => console.log(err))
+        this.getCurrentUser()
+    },
+    methods: {
+        async getCurrentUser(){
+            await axios
+                .get('/auth/login/')
+                .then(response => {
+                    this.user = response.data.user
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            await this.getUserRecipes()
+        },
+        getUserRecipes(){
+            axios.get(`/recipes/user/`)
+            .then(response => {
+                this.recipes = response.data
+            })
+            .catch(err => console.log(err.messages))
+        },
     }
 
 
@@ -51,6 +79,9 @@ body {
     margin: 100px auto;
     width: 900px;
 
+}
+img {
+    padding-left: 0;
 }
 .card {
     display: flex;
@@ -73,6 +104,11 @@ body {
     text-decoration: none;
     color: #2c3e50;
     font-size: 26px;
+}
+span.username-field {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0b6dff;
 }
 
 </style>

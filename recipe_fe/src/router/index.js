@@ -6,6 +6,8 @@ import RecipeDetailsView from "@/views/RecipeDetailsView";
 import RegisterView from "@/views/Auth/RegisterView";
 import LoginView from "@/views/Auth/LoginView";
 import ProfileView from "@/views/Auth/ProfileView";
+import EditRecipeView from "@/views/EditRecipeView";
+import DeleteRecipeView from "@/views/DeleteRecipeView";
 
 const routes = [
     {
@@ -25,9 +27,21 @@ const routes = [
         props: true
     },
     {
-        path: '/create',
+        path: '/recipes/create',
         name: 'create',
         component: CreateView
+    },
+    {
+        path: '/recipes/edit/:id',
+        name: 'edit',
+        component: EditRecipeView,
+        props: true
+    },
+    {
+        path: '/recipes/delete/:id',
+        name: 'delete',
+        component: DeleteRecipeView,
+        props: true
     },
     {
         path: '/register',

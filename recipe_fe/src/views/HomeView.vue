@@ -1,27 +1,42 @@
 <template>
-    <div class="home">
-<!--        <h1 v-if="user">Welcome to Home page {{user}}</h1>-->
-        <h1>Welcome to Home page</h1>
-    </div>
+    <NavBar/>
     <div>
-        <img src="https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/home-improvement/wp-content/uploads/2022/07/featured-image-kitchen-layouts.jpg" alt="">
+        <img class="index-img" src="https://iamafoodblog.b-cdn.net/wp-content/uploads/2020/11/korean-bbq-8064w.jpg"
+             alt="main-picture">
     </div>
 </template>
 
 <script>
+import NavBar from "@/components/NavBar";
 import axios from "axios";
 
 export default {
     name: 'HomeView',
-    // data(){
-        // return {
-        //     user: null
-        // }
-    // },
-    // mounted() {
-    //     const response = axios.get('/auth/login/')
-    //     console.log(response)
-    //     this.user = response.data.user
-    // }
+    components: {NavBar},
+
+    mounted() {
+        this.getCurrentUser()
+    },
+    methods: {
+        getCurrentUser(){
+            axios
+                .get('/auth/login/')
+                .then(response => {
+                    console.log(response.data)
+
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        }
+    }
 }
 </script>
+
+<style>
+.index-img {
+    height: 600px;
+    margin-top: 36px;
+    padding-left: 0;
+}
+</style>

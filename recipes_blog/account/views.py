@@ -1,10 +1,13 @@
 from django.contrib.auth import authenticate
 from rest_framework import generics, status
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import SignUpSerializer
-from recipe.models import Recipe
-from recipe.serializers import RecipeSerializer
+
+
+class LeadPagination(PageNumberPagination):
+    page_size = 2
 
 
 class RegisterView(generics.GenericAPIView):
@@ -51,8 +54,8 @@ class LoginView(APIView):
 
     def get(self, request):
         content = {
-            "user": str(request.user),
-            "auth": str(request.auth),
+            "user": str(self.request.user),
+            "auth": str(self.request.auth),
         }
         return Response(data=content, status=status.HTTP_200_OK)
 
@@ -65,11 +68,3 @@ class LogoutView(APIView):
             "message": "User logout successfully"
         }
         return response
-
-
-class UserRecipeView(APIView):
-    def get(self, request):
-        recipes = Recipe.objects.filter(author=self.request.user.id)
-        serializer = RecipeSerializer(recipes, many=True)
-        return Response(data=serializer.data,  status=status.HTTP_200_OK)
-

@@ -1,4 +1,6 @@
 <template>
+    <NavBar/>
+
     <form @submit.prevent="LoginFunc">
         <label>Email</label>
         <input type="email" required v-model="email">
@@ -16,8 +18,10 @@
 
 <script>
 import axios from "axios";
+import NavBar from "@/components/NavBar";
 
 export default {
+    components: {NavBar},
     data() {
         return {
             email: '',
@@ -34,11 +38,8 @@ export default {
             localStorage.setItem('token', response.data.token)
             localStorage.getItem('token')
             this.$router.push('/')
-            console.log(response);
 
-        }
-    },
-    unmounted() {
+        },
     }
 }
 </script>

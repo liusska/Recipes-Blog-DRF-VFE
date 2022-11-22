@@ -38,6 +38,7 @@ class User(AbstractUser):
     )
     username = models.CharField(
         max_length=USERNAME_MAX_LENGTH,
+        unique=True,
     )
     date_of_birth = models.DateField(
         null=True,

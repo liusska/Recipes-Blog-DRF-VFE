@@ -1,35 +1,39 @@
 <template>
     <NavBar/>
-    <form  @submit.prevent="createPost">
+    <form  @submit.prevent="editPost">
         <label>Title</label>
-        <input type="text" v-model="title">
+        <input type="text" v-model="recipe_before.title">
 
         <label>Ingredients</label>
-        <input type="text" v-model="ingredients">
+        <input type="text" v-model="recipe_before.ingredients">
 
         <label>Category:</label>
-        <select v-model="category">
+        <select v-model="recipe_before.category">
             <option v-for="option in options" :value="option.value">
                 {{ option.text }}
             </option>
         </select>
 
         <label>Photo</label>
-        <input type="url" v-model="photo">
+        <input type="url" v-model="recipe_before.photo">
 
         <label>Video</label>
-        <input type="url" v-model="video">
+        <input type="url" v-model="recipe_before.video">
 
         <label>Time</label>
-        <input type="text" v-model="time_in_minutes">
+        <input type="text" v-model="recipe_before.time_in_minutes">
 
         <label>Description</label>
-        <textarea cols="76" rows="10" v-model="description"></textarea>
+        <textarea cols="76" rows="10" v-model="recipe_before.description"></textarea>
 
         <div class="submit">
-            <button>Create post</button>
+            <button>Edit post</button>
         </div>
     </form>
+
+    <div v-if="error">
+        <strong>{{ error }}</strong>
+    </div>
 </template>
 
 <script>
@@ -37,18 +41,12 @@ import axios from "axios";
 import NavBar from "@/components/NavBar";
 
 export default {
-    name: 'CreateView',
-    components: { NavBar },
+    name: 'EditRecipeView',
+    components: {NavBar},
+    props: ['id'],
     data() {
         return {
-            title: '',
-            ingredients: '',
-            category: '',
-            photo: '',
-            video: '',
-            time_in_minutes: '',
-            description: '',
-
+            recipe_before: {},
             options: [
                 {text: 'Others', value: 'Others'},
                 {text: 'Dessert', value: 'Dessert'},
@@ -57,29 +55,30 @@ export default {
                 {text: 'Baked', value: 'Baked'},
                 {text: 'Main', value: 'Main'},
                 {text: 'Pizza', value: 'Pizza'},
-            ]
+            ],
+            error: '',
         }
     },
     mounted() {
-
+        console.log(this.id)
+        axios.get(`/recipes/${this.id}`)
+            .then(data => this.recipe_before = data.data)
+            .catch(err => console.log(err.messages))
     },
     methods: {
-        createPost(){
-            const dataForm = {
-                title: this.title,
-                ingredients: this.ingredients,
-                category: this.category,
-                photo: this.photo,
-                video: this.photo,
-                time_in_minutes: this.time_in_minutes,
-                description: this.description,
-            }
-            axios.post('/recipes/', dataForm)
-            .then(resp =>console.log(resp))
-            .catch(error => console.log(error))
-
-            this.$router.push(`/recipes`)
-
+        editPost(){
+            axios.put(`/recipes/${this.id}/`, this.recipe_before)
+            .then(resp =>{
+                console.log(resp)
+            })
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                this.error = error
+                console.log(error)
+            })
+            this.$router.push(`/recipes/${this.recipe_before.id}`)
         }
     }
 }
