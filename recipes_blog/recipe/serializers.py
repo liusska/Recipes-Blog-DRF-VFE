@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Recipe
-from account.models import User
 
 
 class RecipeSerializer(serializers.ModelSerializer):

@@ -1,7 +1,7 @@
 <template>
      <nav>
         <div>
-            <router-link to="/">Home</router-link>
+            <router-link class="home-button" to="/">Home</router-link>
             <router-link to="/recipes">Recipes</router-link>
             <router-link to="/recipes/create" v-if="is_logged">Create</router-link>
         </div>
@@ -11,7 +11,7 @@
             <router-link to="/login" v-if="!is_logged">Login</router-link>
 
             <router-link to="/profile" v-if="is_logged">Profile</router-link>
-            <button @click="logout()" v-if="is_logged">Logout</button>
+            <button class="logout-button" @click="logout()" v-if="is_logged">Logout</button>
 
         </div>
     </nav>
@@ -34,12 +34,7 @@ export default {
             axios.defaults.headers.common["Authorization"] = ""
             localStorage.removeItem("token")
             this.$router.push('/login')
-            // this.reloadPage()
-
         },
-        // reloadPage() {
-        //     window.location.reload();
-        // },
     },
 }
 </script>
@@ -70,7 +65,21 @@ button {
 }
 button:hover {
     cursor: pointer;
+}
+.home-button{
+    text-transform: uppercase;
+    border: 3px solid gray;
+    border-radius: 4px;
+    padding: 8px 16px;
 
+}
+.logout-button{
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: grey;
+    margin: 10px 30px;
+    padding: 10px 18px;
 }
 
 </style>

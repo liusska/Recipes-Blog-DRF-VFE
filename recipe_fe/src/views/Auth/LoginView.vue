@@ -9,7 +9,7 @@
         <input type="password" required v-model="password">
 
         <div class="submit">
-            <button>Login</button>
+            <button class="login-button">Login</button>
         </div>
         Or <router-link to="/register">click here</router-link> to register
 
@@ -80,13 +80,16 @@ export default {
         position: relative;
         top: 2px
     }
-    button {
+    .login-button{
         background: #0b6dff;
         border: 0;
         padding: 10px 20px;
         margin-top: 20px;
         color: white;
         border-radius: 20px;
+    }
+    .login-button:hover{
+        cursor: pointer;
     }
     .submit {
         text-align: center;
