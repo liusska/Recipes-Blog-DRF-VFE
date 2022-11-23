@@ -26,17 +26,20 @@ export default {
             is_logged: (localStorage.getItem('token') !== null),
         }
     },
+    mounted() {
+
+    },
     methods: {
         logout() {
             axios.defaults.headers.common["Authorization"] = ""
             localStorage.removeItem("token")
-            this.$router.push('/')
-            this.reloadPage()
+            this.$router.push('/login')
+            // this.reloadPage()
 
         },
-        reloadPage() {
-            window.location.reload();
-        },
+        // reloadPage() {
+        //     window.location.reload();
+        // },
     },
 }
 </script>

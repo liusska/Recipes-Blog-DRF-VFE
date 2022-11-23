@@ -9,6 +9,5 @@ axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 // axios.defaults.headers.common['Authorization'] = 'Token ' + localStorage.getItem('token')
 // axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
-
-createApp(App).use(router).mount('#app')
+createApp(App).use(router, axios).mount('#app')
 

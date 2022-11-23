@@ -46,8 +46,8 @@ export default {
         this.getCurrentUser()
     },
     methods: {
-        async getCurrentUser(){
-            await axios
+        getCurrentUser(){
+             axios
                 .get('/auth/login/')
                 .then(response => {
                     this.user = response.data.user
@@ -55,7 +55,7 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-            await this.getUserRecipes()
+            this.getUserRecipes()
         },
         getUserRecipes(){
             axios.get(`/recipes/user/`)
@@ -76,7 +76,7 @@ body {
     background: whitesmoke;
 }
 .gallery {
-    margin: 100px auto;
+    margin: 40px auto;
     width: 900px;
 
 }
