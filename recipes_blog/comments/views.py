@@ -1,13 +1,8 @@
 from rest_framework import viewsets
 from .serializers import CommentSerializer
-from recipe.models import Recipe
+from .models import Comment
 
 
-class CommentRecipeViewSet(viewsets.ModelViewSet):
-    queryset = Recipe.objects.all().order_by('-publication_date')
+class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-
-    def perform_create(self, serializer):
-        if self.request.user.is_authenticated:
-            comment = serializer.save(user=self.request.user)
-            return comment
+    queryset = Comment.objects.all().order_by('-publication_date')

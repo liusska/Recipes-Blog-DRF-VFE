@@ -29,6 +29,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 class UserRecipeView(APIView):
     def get(self, request):
-        recipes = Recipe.objects.filter(author=self.request.user.id)
+        recipes = Recipe.objects.filter(author=self.request.user.id).order_by('-publication_date')
         serializer = RecipeSerializer(recipes, many=True)
         return Response(data=serializer.data,  status=status.HTTP_200_OK)

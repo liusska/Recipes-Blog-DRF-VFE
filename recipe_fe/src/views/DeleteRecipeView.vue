@@ -36,8 +36,8 @@ export default {
             .catch(err => console.log(err.messages))
     },
     methods: {
-        deletePost(){
-            axios.delete(`/recipes/${this.id}`)
+        async deletePost(){
+            await axios.delete(`/recipes/${this.id}`)
             this.$router.push('/recipes')
         }
     }

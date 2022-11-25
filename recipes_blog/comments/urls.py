@@ -1,9 +1,8 @@
-from django.urls import path
 from rest_framework import routers
-
-from comments.views import CommentRecipeViewSet
+from .views import CommentViewSet
 
 router = routers.DefaultRouter()
-router.register('<int:pk>', CommentRecipeViewSet)
+router.register('', CommentViewSet)
+
 
 urlpatterns = router.urls

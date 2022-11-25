@@ -55,6 +55,7 @@ class LoginView(APIView):
     def get(self, request):
         content = {
             "user": str(self.request.user),
+            "user_id": self.request.user.id,
             "auth": str(self.request.auth),
         }
         return Response(data=content, status=status.HTTP_200_OK)

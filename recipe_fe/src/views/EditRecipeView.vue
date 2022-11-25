@@ -15,7 +15,7 @@
         </select>
 
         <label>Photo</label>
-        <input type="url" v-model="recipe_before.photo">
+        <input type="file" ref="file" @change="selectFile" accept="image/*"/>
 
         <label>Video</label>
         <input type="url" v-model="recipe_before.video">
@@ -71,14 +71,14 @@ export default {
             .then(resp =>{
                 console.log(resp)
             })
-            .then(data => {
-                console.log(data)
-            })
             .catch(error => {
                 this.error = error
                 console.log(error)
             })
             this.$router.push(`/recipes/${this.recipe_before.id}`)
+        },
+        selectFile(){
+            this.photo = this.$refs.file.files.item(0)
         }
     }
 }
