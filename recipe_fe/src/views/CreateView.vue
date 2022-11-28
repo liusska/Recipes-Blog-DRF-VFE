@@ -70,7 +70,6 @@ export default {
                 ingredients: this.ingredients,
                 category: this.category,
                 photo: this.photo,
-
                 video: this.video,
                 time_in_minutes: this.time_in_minutes,
                 description: this.description,
@@ -86,7 +85,9 @@ export default {
             this.$router.push(`/recipes`)
         },
 
-        selectFile(){
+        selectFile() {
+            console.log('SelectFile Funch', this.recipe_before)
+
             this.photo = this.$refs.file.files.item(0)
         }
 

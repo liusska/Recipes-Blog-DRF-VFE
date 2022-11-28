@@ -1,7 +1,7 @@
 <template>
     <NavBar/>
     <div>
-        <img class="index-img" src="https://iamafoodblog.b-cdn.net/wp-content/uploads/2020/11/korean-bbq-8064w.jpg"
+        <img class="index-img" src="http://127.0.0.1:8000/media/background.jpg"
              alt="main-picture">
     </div>
 </template>
@@ -34,9 +34,15 @@ export default {
 </script>
 
 <style>
+body, html {
+  height: 100%;
+}
+
 .index-img {
-    height: 600px;
-    margin-top: 36px;
-    padding-left: 0;
+    height: 100%;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 </style>

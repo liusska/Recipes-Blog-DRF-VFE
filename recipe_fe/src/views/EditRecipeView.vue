@@ -1,6 +1,6 @@
 <template>
     <NavBar/>
-    <form  @submit.prevent="editPost">
+    <form @submit.prevent="editPost" enctype="multipart/form-data">
         <label>Title</label>
         <input type="text" v-model="recipe_before.title">
 
@@ -47,6 +47,7 @@ export default {
     data() {
         return {
             recipe_before: {},
+            image_before: null,
             options: [
                 {text: 'Others', value: 'Others'},
                 {text: 'Dessert', value: 'Dessert'},
@@ -60,24 +61,38 @@ export default {
         }
     },
     mounted() {
-        console.log(this.id)
+        console.log("recipe id: " + this.id)
         axios.get(`/recipes/${this.id}`)
-            .then(data => this.recipe_before = data.data)
+            .then(data => {
+                this.image_before = data.data.photo
+                this.recipe_before = data.data
+            })
             .catch(err => console.log(err.messages))
     },
     methods: {
-        editPost(){
-            axios.put(`/recipes/${this.id}/`, this.recipe_before)
-            .then(resp =>{
-                console.log(resp)
+        editPost() {
+            console.log('Image old ' + this.image_before)
+            console.log('Obj photo ' + this.recipe_before.photo)
+            // if (this.recipe_before.photo === null){
+            //     this.recipe_before.photo = this.image_before
+            // }
+            this.recipe_before.photo = null
+
+            console.log('New obj ', this.recipe_before)
+
+            axios.put(`/recipes/${this.id}/`, this.recipe_before, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             })
-            .catch(error => {
-                this.error = error
-                console.log(error)
-            })
+                .then(resp => console.log(resp))
+                .catch(error => {
+                    this.error = error
+                    console.log(error)
+                })
             this.$router.push(`/recipes/${this.recipe_before.id}`)
         },
-        selectFile(){
+        selectFile() {
             this.photo = this.$refs.file.files.item(0)
         }
     }
@@ -85,45 +100,49 @@ export default {
 </script>
 
 <style scoped>
-    form {
-        max-width: 600px;
-        margin: 30px auto;
-        background: white;
-        text-align: left;
-        padding: 40px;
-        border-radius: 10px;
-    }
-    label {
-        color: #aaa;
-        display: inline-block;
-        margin: 25px 0 15px;
-        font-size: 0.8em;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: bold;
-    }
-    input, select {
-        display: block;
-        padding: 10px 6px;
-        width: 100%;
-        box-sizing: border-box;
-        border: none;
-        border-bottom: 1px solid #ddd;
-        color: #555;
-    }
-    textarea{
-        border-color: snow;
-    }
+form {
+    max-width: 600px;
+    margin: 30px auto;
+    background: white;
+    text-align: left;
+    padding: 40px;
+    border-radius: 10px;
+}
 
-    button {
-        background: #0b6dff;
-        border: 0;
-        padding: 10px 20px;
-        margin-top: 20px;
-        color: white;
-        border-radius: 20px;
-    }
-    .submit {
-        text-align: center;
-    }
+label {
+    color: #aaa;
+    display: inline-block;
+    margin: 25px 0 15px;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+input, select {
+    display: block;
+    padding: 10px 6px;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    color: #555;
+}
+
+textarea {
+    border-color: snow;
+}
+
+button {
+    background: #0b6dff;
+    border: 0;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 20px;
+}
+
+.submit {
+    text-align: center;
+}
 </style>

@@ -59,4 +59,3 @@ class LoginView(APIView):
             "auth": str(self.request.auth),
         }
         return Response(data=content, status=status.HTTP_200_OK)
-

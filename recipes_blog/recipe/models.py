@@ -48,8 +48,8 @@ class Recipe(models.Model):
     )
     photo = models.ImageField(
         upload_to='recipes',
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
     )
     video = models.URLField(
         blank=True,
