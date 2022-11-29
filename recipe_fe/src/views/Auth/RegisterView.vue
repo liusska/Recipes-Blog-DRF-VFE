@@ -10,6 +10,14 @@
         <label>Password</label>
         <input type="password" v-model="password">
 
+        <label>Repeat Password</label>
+        <input type="password" v-model="rePassword">
+
+         <div class="error" v-if="errors.length">
+             <ul v-for="error in errors" :key="error">
+                 <li>{{ error }}</li>
+             </ul>
+         </div>
         <div class="submit">
             <button>Create an account</button>
         </div>
@@ -28,28 +36,51 @@ export default {
         return {
             email: '',
             username: '',
-            password: ''
+            password: '',
+            rePassword:'',
+            errors: [],
         }
     },
     methods: {
         registerFunc() {
-            const formData = {
-                email: this.email,
-                username: this.username,
-                password: this.password,
+            this.errors = []
+            if (this.username === ''){
+                this.errors.push('The username is missing')
             }
+            if (this.email === ''){
+                this.errors.push('The email is missing')
+            }
+            if (this.password === ''){
+                this.errors.push('The password is too short')
+            }
+            if (this.password !== this.rePassword) {
+                this.errors.push('The password doesn\'t match')
+            }
+            if (!this.errors.length){
+                const formData = {
+                    email: this.email,
+                    username: this.username,
+                    password: this.password,
+                }
 
-            axios
-                .post('/auth/register/', formData)
-                .then(response => {
-                    console.log(response)
-
-                })
-                .catch(error => {
-                    console.log(error)
-                })
-            this.$router.push('/login')
-
+                axios
+                    .post('/auth/register/', formData)
+                    .then(response => {
+                        console.log(response)
+                    })
+                    .catch(error => {
+                        if (error.response){
+                            for (const property in error.response.data){
+                                this.errors.push(`${property}: ${error.response.data[property]}`)
+                            }
+                            console.log(JSON.stringify(error.response.data))
+                        } else if (error.message) {
+                            this.errors.push('Something went wrong. Please try again')
+                            console.log(JSON.stringify(error))
+                        }
+                    })
+                    this.$router.push('/login')
+            }
 
         }
     }
@@ -102,9 +133,9 @@ export default {
         text-align: center;
     }
     .error {
-        color: #ff0062;
+        color: red;
         margin-top: 10px;
-        font-size: 0.8em;
+        font-size: 1.2em;
         font-weight: bold;
     }
 </style>

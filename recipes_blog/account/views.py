@@ -50,7 +50,8 @@ class LoginView(APIView):
             return Response(data=response, status=status.HTTP_200_OK)
         return Response(data={
             "message": "Invalid email or password",
-        })
+
+        }, status=status.HTTP_401_UNAUTHORIZED)
 
     def get(self, request):
         content = {

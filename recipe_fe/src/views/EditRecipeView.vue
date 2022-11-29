@@ -2,29 +2,29 @@
     <NavBar/>
     <form @submit.prevent="editPost" enctype="multipart/form-data">
         <label>Title</label>
-        <input type="text" v-model="recipe_before.title">
+        <input type="text" v-model="title">
 
         <label>Ingredients</label>
-        <input type="text" v-model="recipe_before.ingredients">
+        <input type="text" v-model="ingredients">
 
         <label>Category:</label>
-        <select v-model="recipe_before.category">
+        <select v-model="category">
             <option v-for="option in options" :value="option.value">
                 {{ option.text }}
             </option>
         </select>
 
         <label>Photo</label>
-        <input type="file" ref="file" @change="selectFile" accept="image/*"/>
+        <input type="file" ref="file" @change="selectFile" accept="image/*" :src=photo>
 
         <label>Video</label>
-        <input type="url" v-model="recipe_before.video">
+        <input type="url" v-model="video">
 
         <label>Time</label>
-        <input type="text" v-model="recipe_before.time_in_minutes">
+        <input type="text" v-model="time_in_minutes">
 
         <label>Description</label>
-        <textarea cols="76" rows="10" v-model="recipe_before.description"></textarea>
+        <textarea cols="76" rows="10" v-model="description"></textarea>
 
         <div class="submit">
             <button>Edit post</button>
@@ -46,8 +46,14 @@ export default {
     props: ['id'],
     data() {
         return {
-            recipe_before: {},
-            image_before: null,
+            old_photo: null,
+            photo: null,
+            title: '',
+            ingredients: '',
+            category: '',
+            video: null,
+            time_in_minutes: '',
+            description: '',
             options: [
                 {text: 'Others', value: 'Others'},
                 {text: 'Dessert', value: 'Dessert'},
@@ -63,37 +69,61 @@ export default {
     mounted() {
         console.log("recipe id: " + this.id)
         axios.get(`/recipes/${this.id}`)
-            .then(data => {
-                this.image_before = data.data.photo
-                this.recipe_before = data.data
+            .then(response => {
+                this.title = response.data.title
+                this.ingredients = response.data.ingredients
+                this.category = response.data.category
+                this.old_photo = response.data.photo
+                this.photo = response.data.photo
+                this.video = response.data.video
+                this.time_in_minutes = response.data.time_in_minutes
+                this.description = response.data.description
             })
             .catch(err => console.log(err.messages))
+
     },
     methods: {
         editPost() {
-            console.log('Image old ' + this.image_before)
-            console.log('Obj photo ' + this.recipe_before.photo)
-            // if (this.recipe_before.photo === null){
-            //     this.recipe_before.photo = this.image_before
-            // }
-            this.recipe_before.photo = null
+            console.log('photo', this.photo)
 
-            console.log('New obj ', this.recipe_before)
+            const dataForm = {
+                title: this.title,
+                ingredients: this.ingredients,
+                category: this.category,
+                photo: this.photo,
+                video: this.video,
+                time_in_minutes: this.time_in_minutes,
+                description: this.description,
+            }
 
-            axios.put(`/recipes/${this.id}/`, this.recipe_before, {
+            if (typeof this.photo === 'string') {
+                dataForm.photo = this.urlToObj(this.photo)
+            }
+
+            axios.put(`/recipes/${this.id}/`, dataForm, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
                 }
             })
-                .then(resp => console.log(resp))
+                .then(resp => {
+                    console.log(resp)
+                    this.$router.push(`/recipes/${this.id}`)
+                })
                 .catch(error => {
                     this.error = error
                     console.log(error)
                 })
-            this.$router.push(`/recipes/${this.recipe_before.id}`)
         },
         selectFile() {
             this.photo = this.$refs.file.files.item(0)
+        },
+        urlToObj(url) {
+            let dir = {}
+            let paths = url.split('/')
+            paths.reduce(function (dir, path) {
+                return dir[path] = {}
+            }, dir)
+            return dir
         }
     }
 }

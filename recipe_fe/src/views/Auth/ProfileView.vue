@@ -63,7 +63,6 @@ export default {
             axios.get(`/recipes/user/`)
             .then(response => {
                 for (let item in response.data){
-                    console.log(response.data[item].photo)
                     if (response.data[item].photo !== null){
                        response.data[item].photo = `http://127.0.0.1:8000${response.data[item].photo}`
                     }

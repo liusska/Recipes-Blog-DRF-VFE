@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'account',
     'corsheaders',
     'comments',
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 CORS_ALLOWED_ORIGINS = [

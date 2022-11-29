@@ -45,6 +45,7 @@ export default {
             ingredients: '',
             category: '',
             photo: null,
+            photo_obj: null,
             video: null,
             time_in_minutes: '',
             description: '',
@@ -65,11 +66,13 @@ export default {
     },
     methods: {
         async createPost() {
+            console.log(this.photo)
             const dataForm = {
                 title: this.title,
                 ingredients: this.ingredients,
                 category: this.category,
                 photo: this.photo,
+                photo_obj: this.photo,
                 video: this.video,
                 time_in_minutes: this.time_in_minutes,
                 description: this.description,
@@ -86,8 +89,6 @@ export default {
         },
 
         selectFile() {
-            console.log('SelectFile Funch', this.recipe_before)
-
             this.photo = this.$refs.file.files.item(0)
         }
 

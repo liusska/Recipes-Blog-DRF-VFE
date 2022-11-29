@@ -8,6 +8,13 @@
         <label>Password</label>
         <input type="password" required v-model="password">
 
+
+         <div class="error" v-if="errors.length">
+             <ul v-for="error in errors" :key="error">
+                 <li>{{ error }}</li>
+             </ul>
+         </div>
+
         <div class="submit">
             <button class="login-button">Login</button>
         </div>
@@ -25,7 +32,8 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            errors: [],
         }
     },
     methods: {
@@ -34,13 +42,28 @@ export default {
                 email: this.email,
                 password: this.password,
             }
-            const response = await axios.post('/auth/login/', formData);
-            localStorage.setItem('token', response.data.token)
-            localStorage.getItem('token')
-            axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
 
-            this.$router.push('/')
-
+            await axios
+                .post('/auth/login/', formData)
+                .then( response => {
+                    if(response.status === 200) {
+                        localStorage.setItem('token', response.data.token)
+                        localStorage.getItem('token')
+                        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
+                        this.$router.push('/')
+                    }
+                })
+                .catch(error => {
+                        if (error.response){
+                            for (const property in error.response.data){
+                                this.errors.push(`${property}: ${error.response.data[property]}`)
+                            }
+                            console.log(JSON.stringify(error.response.data))
+                        } else if (error.message) {
+                            this.errors.push('Something went wrong. Please try again')
+                            console.log(JSON.stringify(error))
+                        }
+                    })
         },
     }
 }

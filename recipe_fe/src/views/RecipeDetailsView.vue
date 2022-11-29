@@ -92,9 +92,9 @@ export default {
                         this.trailer_url="https://www.youtube.com/embed/" + this.recipe.video.split('=')[1]
                     }
                 })
-            .catch(err => console.log(err.messages))
-            this.getCurrentUser()
-            this.getAllRecipeComments()
+                .catch(err => console.log(err.messages))
+                this.getCurrentUser()
+                this.getAllRecipeComments()
         },
 
         getCurrentUser(){
@@ -112,7 +112,6 @@ export default {
                  user: this.currentUserId,
                  comment: this.new_comment
             }
-            console.log(formData)
             axios.post('/comments/', formData)
 
             this.getRecipeDetails()
