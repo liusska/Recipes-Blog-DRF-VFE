@@ -10,9 +10,3 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = '__all__'
-
-    def validate(self, data):
-        print(data)
-        data['author'] = self.context['request'].user
-        print(self.context['request'].user)
-        return data

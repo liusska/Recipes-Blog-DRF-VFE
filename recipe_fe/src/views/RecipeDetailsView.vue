@@ -11,7 +11,6 @@
             </div>
             <div class="info">
                 <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
-                <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>
                 <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
                 <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
                 <p><span class="date">
@@ -22,14 +21,26 @@
                     <router-link class="button edit" :to="{ name: 'edit', params: { id: recipe.id} }">Edit</router-link>
                     <router-link class="button delete" :to="{ name: 'delete', params: { id: recipe.id} }">Delete</router-link>
                 </div>
-
+            </div>
+            <div class="likes">
+                <a href="#" class="like" @click="likeRecipe()">
+                    <p v-if="isLiked === true"><i class="fa fa-heart"><span>{{likesCount}}</span></i></p>
+                    <p v-else><i class="fa fa-heart-o"><span>{{likesCount}}</span></i></p>
+                    <p></p>
+                </a>
             </div>
         </div>
      </div>
 
     <div class="recipe-description">
+
         <h2>Recipe Description: </h2>
-        <p class="recipe-desc-text">{{ recipe.description}}</p>
+        <p class="ingredients">
+            <span class="field">Ingredients: </span>
+            <span class="value">{{ recipe.ingredients }}</span>
+        </p>
+
+        <p class="recipe-desc-text">&nbsp&nbsp&nbsp&nbsp {{ recipe.description}}</p>
     </div>
     <div v-if="trailer_url !== null">
         <iframe width="590" height="400" :src="trailer_url"
@@ -62,6 +73,7 @@
 </template>
 
 <script>
+
 import axios from "axios";
 import NavBar from "@/components/NavBar";
 
@@ -72,6 +84,8 @@ export default {
         return {
             recipe: null,
             trailer_url: null,
+            likesCount: 0,
+            isLiked: false,
             currentUser: null,
             currentUserId:null,
             author: null,
@@ -95,6 +109,7 @@ export default {
                 .catch(err => console.log(err.messages))
                 this.getCurrentUser()
                 this.getAllRecipeComments()
+                this.getLikesCount()
         },
 
         getCurrentUser(){
@@ -125,13 +140,26 @@ export default {
                 this.comments = recipes.filter(post => post.recipe === this.recipe.id)
             })
             .catch(err => console.log(err.messages))
+        },
+        getLikesCount(){
+            axios.get(`/recipes/likes/${this.id}`)
+                .then(response => {
+                    console.log(response)
+                    this.likesCount = response.data.likes_count
+                    this.isLiked = response.data.is_liked
+                })
+        },
+        likeRecipe() {
+            axios.post(`/recipes/likes/${this.id}`)
+                .then(response => console.log(response))
+            this.getRecipeDetails()
         }
+
     },
 }
 </script>
 
 <style>
-
 h1 {
     margin-bottom: 40px;
     letter-spacing: 2px;
@@ -210,6 +238,7 @@ h1 {
 
 .recipe-info {
     display: flex;
+    justify-content: space-evenly;
     padding-right: 36px;
 }
 
@@ -223,10 +252,17 @@ h1 {
     margin: 2px 70px;
     color: slategray;
 }
+
+.recipe-description .ingredients {
+    text-align: left;
+    margin-top: 100px;
+    margin-left: 200px;
+}
+
 .recipe-description h2{
     letter-spacing: 2px;
     text-transform: uppercase;
-    margin-top: 60px;
+    margin-top: 100px;
     color: slategray;
 }
 span.field{
@@ -245,5 +281,14 @@ span.value {
     font-weight: bold;
     color: darkslategray;
 
+}
+
+.like i{
+    font-size: 22px;
+}
+.like span {
+    font-size: 26px;
+    padding-left: 10px;
+    font-weight: bold;
 }
 </style>

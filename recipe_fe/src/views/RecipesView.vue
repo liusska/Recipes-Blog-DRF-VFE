@@ -25,7 +25,7 @@
                             </button>
                         </span>
                     </p>
-                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>
+<!--                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>-->
                     <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
                     <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
                     <p><span class="field">Published: </span><span class="value">{{ recipe.publication_date.split('T')[0]}}</span></p>

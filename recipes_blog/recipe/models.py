@@ -84,3 +84,10 @@ class Recipe(models.Model):
     def __str__(self):
         return f'Title: {self.title}, Category {self.category}'
 
+
+class Like(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
