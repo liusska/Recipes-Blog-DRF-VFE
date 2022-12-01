@@ -6,8 +6,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from .serializers import RecipeSerializer
-from .models import Recipe, Like
+from .serializers import RecipeSerializer, RateSerializer
+from .models import Recipe, Like, Rate
 
 
 class LeadPagination(PageNumberPagination):
@@ -35,7 +35,7 @@ class UserRecipeView(APIView):
         return Response(data=serializer.data,  status=status.HTTP_200_OK)
 
 
-class LikeBookView(APIView):
+class LikeRecipeView(APIView):
     def post(self, request, *args, **kwargs):
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
         like_object_by_user = recipe.like_set.filter(user=self.request.user.id).first()
@@ -58,5 +58,32 @@ class LikeBookView(APIView):
                 "likes_count": recipe.likes_count,
                 'is_liked': is_liked_by_user,
             },
-            status=status.HTTP_201_CREATED
+            status=status.HTTP_200_OK
+        )
+
+
+class RateRecipeView(APIView):
+    def post(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=self.kwargs['pk'])
+        serializer = RateSerializer(data=request.data)
+        if serializer.is_valid():
+            rating = serializer.save()
+            rating.user = request.user
+            rating.recipe_id = recipe.id
+            rating.save()
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, *args, **kwargs):
+        recipe = Recipe.objects.get(pk=self.kwargs['pk'])
+        is_rate = recipe.like_set.filter(user_id=self.request.user.id).exists()
+        return Response(
+            data={
+                "recipe": recipe.id,
+                'is_rate': is_rate,
+                'user': self.request.user.id,
+                'avg_rating': f'{recipe.get_average_rating:.1f} / 10',
+                'rating_count': recipe.rate_set.count(),
+            },
+            status=status.HTTP_200_OK
         )

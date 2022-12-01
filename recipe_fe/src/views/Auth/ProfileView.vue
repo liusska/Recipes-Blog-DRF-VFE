@@ -14,7 +14,6 @@
                     </router-link>
 
                     <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
-<!--                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>-->
                     <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
                     <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
                     <p><span class="field">Published: </span>

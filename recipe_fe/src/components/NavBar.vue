@@ -1,7 +1,7 @@
 <template>
      <nav>
         <div>
-            <router-link class="home-button" to="/">Home</router-link>
+            <router-link class="home-button" to="/"><i class="fa fa-home"></i>Home</router-link>
             <router-link to="/recipes">Recipes</router-link>
             <router-link to="/recipes/create" v-if="is_logged">Create</router-link>
         </div>
@@ -10,7 +10,7 @@
             <router-link to="/register" v-if="!is_logged">Register</router-link>
             <router-link to="/login" v-if="!is_logged">Login</router-link>
 
-            <router-link to="/profile" v-if="is_logged">Profile</router-link>
+            <router-link to="/profile" v-if="is_logged"><i class="fa fa-user">Profile</i></router-link>
             <button class="logout-button" @click="logout()" v-if="is_logged">Logout</button>
 
         </div>

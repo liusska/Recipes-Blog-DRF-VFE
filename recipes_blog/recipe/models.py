@@ -81,13 +81,48 @@ class Recipe(models.Model):
         on_delete=models.CASCADE
     )
 
+    @property
+    def get_average_rating(self):
+        rate_count = self.rate_set.count()
+        if rate_count == 0:
+            return 0
+        return sum(e.rate for e in self.rate_set.all()) / rate_count
+
     def __str__(self):
         return f'Title: {self.title}, Category {self.category}'
 
 
 class Like(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE)
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE
     )
+
+
+class Rate(models.Model):
+    RATE_CHOICES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10'),
+    ]
+
+    rate = models.PositiveIntegerField(
+        default=0,
+        choices=RATE_CHOICES,
+    )
+
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.recipe} - {self.user} Rate: {self.rate}'

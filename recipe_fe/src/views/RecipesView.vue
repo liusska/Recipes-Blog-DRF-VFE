@@ -1,12 +1,9 @@
 <template>
     <NavBar />
     <form class="search-box" @submit.prevent="search()">
-
             <input type="text" v-model="target">
-
             <button class="search-button">Search</button>
-
-             </form>
+    </form>
     <div v-if="recipes.length" class="gallery">
         <div v-for="recipe in recipes" :key="recipe.id">
             <div class="card">
@@ -16,8 +13,13 @@
                     <router-link :to="{ name: 'recipesDetails', params: { id: recipe.id} }">
                         <h2>{{ recipe.title }}</h2>
                     </router-link>
-
                     <p>
+                        <div class="rate">
+                    <div>
+                        <span><i class="fa fa-star"></i></span>
+                        <span class="avg-rate">&nbsp;{{recipe.avgRate}}</span>
+                    </div>
+                    </div>
                         <span class="field">Category:</span>
                         <span class="value">
                             <button v-on:click="searchByCategory($event)" :value="recipe.category" class="button-category">
@@ -25,7 +27,6 @@
                             </button>
                         </span>
                     </p>
-<!--                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>-->
                     <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
                     <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
                     <p><span class="field">Published: </span><span class="value">{{ recipe.publication_date.split('T')[0]}}</span></p>
@@ -67,13 +68,18 @@ export default {
             this.currentPage -= 1
             this.getAllRecipes()
         },
+
         getAllRecipes(){
             this.showNextButton = false
             this.showPreviousButton = false
 
-            axios.get(`/recipes/?page=${this.currentPage}&search=${this.target}`)
+             axios.get(`/recipes/?page=${this.currentPage}&search=${this.target}`)
                 .then(response => {
-                    this.recipes = response.data.results
+                    for (let recipe of response.data.results){
+                        recipe.avgRate = this.getAvgRate(recipe.id)
+                        this.recipes.push(recipe)
+                    }
+
                     if (response.data.next){
                         this.showNextButton = true
                     }
@@ -90,6 +96,15 @@ export default {
         searchByCategory(e){
             this.target = e.target.value;
             this.getAllRecipes()
+        },
+
+        async getAvgRate(recipe_id) {
+            await axios.get(`/recipes/rate/${recipe_id}`)
+                .then(response => {
+                    console.log(response.data)
+                    return response.data.avg_rating
+                })
+                .catch(err => console.log(err.messages))
         },
     }
 

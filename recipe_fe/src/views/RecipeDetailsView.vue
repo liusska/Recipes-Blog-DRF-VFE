@@ -1,7 +1,7 @@
 <template>
     <NavBar />
 <div v-if="recipe">
-    <h1> {{ recipe.title }} </h1>
+    <h1> <i class="fa fa-soup"></i>{{ recipe.title }} </h1>
 
     <div class="container">
         <div class="recipe-info">
@@ -10,6 +10,17 @@
                 <img v-else class="details-img" src="http://127.0.0.1:8000/media/recipes/default-food-image.jpg">
             </div>
             <div class="info">
+                <div class="rate">
+                    <div>
+                        <span><i class="fa fa-star"></i></span>
+                        <span class="avg-rate">&nbsp;{{this.avgRate}}</span>
+                    </div>
+                    <div>
+                        <span class="voted-count">( {{this.rateCount}} voted )</span>
+                    </div>
+
+                </div>
+
                 <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
                 <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
                 <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
@@ -18,8 +29,8 @@
                         {{ (recipe.publication_date.split('T')[1]).split('.')[0]}}
                     </span></p>
                 <div v-if="currentUser === author" class="buttons-container">
-                    <router-link class="button edit" :to="{ name: 'edit', params: { id: recipe.id} }">Edit</router-link>
-                    <router-link class="button delete" :to="{ name: 'delete', params: { id: recipe.id} }">Delete</router-link>
+                    <router-link class="button edit" :to="{ name: 'edit', params: { id: recipe.id} }"><i class="fa fa-edit"></i>Edit</router-link>
+                    <router-link class="button delete" :to="{ name: 'delete', params: { id: recipe.id} }"><i class="fa fa-trash"></i>Delete</router-link>
                 </div>
             </div>
             <div class="likes">
@@ -31,14 +42,26 @@
             </div>
         </div>
      </div>
+    <div >
+        <form @submit.prevent="rateRecipe()" class="vote-form">
+            <select v-model="newRate">
+                <option v-for="option in options" :value="option.value">
+                    {{ option.text }}
+                </option>
+            </select>
+            <button>Rate</button>
+        </form>
 
+    </div>
     <div class="recipe-description">
 
         <h2>Recipe Description: </h2>
-        <p class="ingredients">
+        <div class="ingredients">
             <span class="field">Ingredients: </span>
-            <span class="value">{{ recipe.ingredients }}</span>
-        </p>
+            <ul v-for="ingredient in recipe.ingredients.split(',')">
+                <li><span class="value">{{ ingredient }}</span></li>
+            </ul>
+        </div>
 
         <p class="recipe-desc-text">&nbsp&nbsp&nbsp&nbsp {{ recipe.description}}</p>
     </div>
@@ -86,11 +109,26 @@ export default {
             trailer_url: null,
             likesCount: 0,
             isLiked: false,
+            avgRate: 0,
+            rateCount: 0,
+            newRate: 1,
             currentUser: null,
             currentUserId:null,
             author: null,
             new_comment: '',
             comments: [],
+            options: [
+                {text: '1', value: '1'},
+                {text: '2', value: '2'},
+                {text: '3', value: '3'},
+                {text: '4', value: '4'},
+                {text: '5', value: '5'},
+                {text: '6', value: '6'},
+                {text: '7', value: '7'},
+                {text: '8', value: '8'},
+                {text: '9', value: '9'},
+                {text: '10', value: '10'},
+            ]
         }
     },
     mounted() {
@@ -110,6 +148,7 @@ export default {
                 this.getCurrentUser()
                 this.getAllRecipeComments()
                 this.getLikesCount()
+                this.getAvgRate()
         },
 
         getCurrentUser(){
@@ -153,6 +192,27 @@ export default {
             axios.post(`/recipes/likes/${this.id}`)
                 .then(response => console.log(response))
             this.getRecipeDetails()
+        },
+        getAvgRate() {
+            axios.get(`/recipes/rate/${this.id}`)
+                .then(response => {
+                    console.log(response)
+                    this.avgRate = response.data.avg_rating
+                    this.rateCount = response.data.rating_count
+                })
+        },
+        rateRecipe() {
+            const formData = {
+                    "rate": this.newRate,
+                    "user": this.currentUserId,
+                    "recipe": this.id
+            }
+            axios.post(`/recipes/rate/${this.id}`, formData)
+                .then(response => {
+                    console.log(response)
+                })
+            this.newRate = 1
+            this.getRecipeDetails()
         }
 
     },
@@ -171,6 +231,37 @@ h1 {
     padding-bottom: 40px;
 }
 
+.avg-rate {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.rate {
+    display: flex;
+    flex-direction: column;
+}
+
+.vote-form {
+    justify-content: center;
+    background: inherit;
+    padding: 0;
+    width: 140px;
+}
+
+.vote-form select {
+    display: inline-block;
+    width: 60px;
+    font-weight: bold;
+}
+.vote-form button {
+    margin: 0;
+    background: #555555;
+    font-weight: bold;
+}
+
+.vote-form button:hover{
+    cursor: pointer;
+}
 
 .comments-table{
     margin: 5px auto;
@@ -227,13 +318,16 @@ h1 {
     margin-top: 40px;
 }
 
+.buttons-container i{
+    padding-right: 8px;
+}
+
 .date{
     font-size: 12px;
 }
 
 .info{
     margin-top: 30px;
-    margin-left: 20px;
 }
 
 .recipe-info {
@@ -244,7 +338,6 @@ h1 {
 
 .recipe-info p {
     text-align: left;
-    padding-left: 20px;
 }
 .recipe-desc-text{
     font-size: 22px;
@@ -280,15 +373,36 @@ span.value {
     font-size: 18px;
     font-weight: bold;
     color: darkslategray;
+}
 
+.fa.fa-star{
+    color: yellow;
+    font-size: 34px;
+}
+
+.fa.fa-heart, .fa.fa-heart-o{
+    color: red;
+}
+
+.fa.fa-heart span, .fa.fa-heart-o span{
+    color: darkslategray;
 }
 
 .like i{
-    font-size: 22px;
+    font-size: 20.5px;
+}
+
+.like i:hover{
+    font-weight: bold;
 }
 .like span {
     font-size: 26px;
     padding-left: 10px;
     font-weight: bold;
+}
+
+.voted-count {
+    font-size: 12px;
+    font-style: italic;
 }
 </style>

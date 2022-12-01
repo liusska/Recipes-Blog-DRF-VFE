@@ -5,7 +5,7 @@
         <input type="text" v-model="title">
 
         <label>Ingredients</label>
-        <input type="text" v-model="ingredients">
+        <input type="text" v-model="ingredients" placeholder="enter ingredients here separate by comma...">
 
         <label>Category:</label>
         <select v-model="category">
@@ -116,6 +116,11 @@ label {
     font-weight: bold;
 }
 
+::placeholder {
+    color: #555555;
+    font-style: italic;
+}
+
 input, select {
     display: block;
     padding: 10px 6px;
@@ -142,4 +147,5 @@ button {
 .submit {
     text-align: center;
 }
+
 </style>
