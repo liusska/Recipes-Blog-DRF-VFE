@@ -76,7 +76,10 @@ class RateRecipeView(APIView):
 
     def get(self, request, *args, **kwargs):
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
-        is_rate = recipe.like_set.filter(user_id=self.request.user.id).exists()
+        is_rate = recipe.rate_set.filter(user_id=self.request.user.id).exists()
+        # if is_rate:
+        #     user_rate = recipe.rate_set.filter(user_id=self.request.user.id)
+        #     print(user_rate)
         return Response(
             data={
                 "recipe": recipe.id,

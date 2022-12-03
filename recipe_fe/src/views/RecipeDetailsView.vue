@@ -42,17 +42,22 @@
             </div>
         </div>
      </div>
-    <div >
-        <form @submit.prevent="rateRecipe()" class="vote-form">
-            <select v-model="newRate">
-                <option v-for="option in options" :value="option.value">
-                    {{ option.text }}
-                </option>
-            </select>
-            <button>Rate</button>
-        </form>
-
+    <div v-if="this.currentUser !== 'AnonymousUser'">
+        <div v-if="this.isRated === false">
+            <form @submit.prevent="rateRecipe()" class="vote-form" >
+                <select v-model="newRate">
+                    <option v-for="option in options" :value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
+                <button>Rate</button>
+            </form>
+        </div>
+        <p v-else><span>Thank you for the rate &nbsp;</span></p>
     </div>
+
+
+
     <div class="recipe-description">
 
         <h2>Recipe Description: </h2>
@@ -87,10 +92,13 @@
             </div>
 
         </div>
-        <form class="comment-form" @submit.prevent="commentRecipe()">
+        <form class="comment-form" @submit.prevent="commentRecipe()" v-if="this.currentUser !== 'AnonymousUser'">
             <input type="text" v-model="new_comment" placeholder="Add your comment here...">
             <button class="comment-form-button">comment</button>
         </form>
+        <div class="login-msg" v-else>
+            <p>Please login <a href="/login">here</a> to comment</p>
+        </div>
     </div>
 </div>
 </template>
@@ -99,6 +107,7 @@
 
 import axios from "axios";
 import NavBar from "@/components/NavBar";
+import {isRef} from "vue";
 
 export default {
     props: ['id'],
@@ -109,6 +118,7 @@ export default {
             trailer_url: null,
             likesCount: 0,
             isLiked: false,
+            isRated: false,
             avgRate: 0,
             rateCount: 0,
             newRate: 1,
@@ -132,6 +142,7 @@ export default {
         }
     },
     mounted() {
+        this.getCurrentUser()
         this.getRecipeDetails()
     },
     methods: {
@@ -155,6 +166,7 @@ export default {
             axios.get('/auth/login/')
             .then(response => {
                 this.currentUser = response.data.user
+                console.log(response.data.user)
                 this.currentUserId = response.data.user_id
             })
             .catch(err => console.log(err.messages))
@@ -186,6 +198,7 @@ export default {
                     console.log(response)
                     this.likesCount = response.data.likes_count
                     this.isLiked = response.data.is_liked
+
                 })
         },
         likeRecipe() {
@@ -199,6 +212,7 @@ export default {
                     console.log(response)
                     this.avgRate = response.data.avg_rating
                     this.rateCount = response.data.rating_count
+                    this.isRated = response.data.is_rate
                 })
         },
         rateRecipe() {
@@ -211,6 +225,7 @@ export default {
                 .then(response => {
                     console.log(response)
                 })
+
             this.newRate = 1
             this.getRecipeDetails()
         }
@@ -269,10 +284,18 @@ h1 {
     border-top-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
+
+.comment-form{
+    margin-bottom: 100px;
+}
 .comment-form-button {
     margin: 5px 150px;
     background: cornflowerblue;
     text-transform: uppercase;
+}
+
+.comments-box {
+    margin-bottom: 80px;
 }
 
 .comment-form {
@@ -293,6 +316,7 @@ h1 {
 .details-img {
     height: 380px;
     padding-left: 200px;
+    object-fit: contain;
 }
 
 .button {
@@ -345,7 +369,9 @@ h1 {
     margin: 2px 70px;
     color: slategray;
 }
-
+.recipe-description {
+    margin-bottom: 50px;
+}
 .recipe-description .ingredients {
     text-align: left;
     margin-top: 100px;
@@ -390,6 +416,11 @@ span.value {
 
 .like i{
     font-size: 20.5px;
+}
+
+.login-msg p{
+    padding: 20px;
+    font-size: 26px;
 }
 
 .like i:hover{
