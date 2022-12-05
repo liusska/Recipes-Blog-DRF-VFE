@@ -8,6 +8,7 @@ import LoginView from "@/views/Auth/LoginView";
 import ProfileView from "@/views/Auth/ProfileView";
 import EditRecipeView from "@/views/EditRecipeView";
 import DeleteRecipeView from "@/views/DeleteRecipeView";
+import DessertsView from "@/views/DessertsView";
 
 const routes = [
     {
@@ -19,6 +20,11 @@ const routes = [
         path: '/recipes',
         name: 'recipes',
         component: RecipesView
+    },
+    {
+        path: '/recipes/dessert',
+        name: 'dessert',
+        component: DessertsView
     },
     {
         path: '/recipes/:id',
@@ -59,6 +65,7 @@ const routes = [
         name: 'profile',
         component: ProfileView
     },
+
 ]
 
 const router = createRouter({

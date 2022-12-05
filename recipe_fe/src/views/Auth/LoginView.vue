@@ -18,17 +18,21 @@
         <div class="submit">
             <button class="login-button">Login</button>
         </div>
-        Or <router-link to="/register">click here</router-link> to register
+        * Or <router-link to="/register">click here</router-link> to register
 
     </form>
+    <div class="footer">
+        <Footer />
+    </div>
 </template>
 
 <script>
 import axios from "axios";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 export default {
-    components: {NavBar},
+    components: {NavBar, Footer},
     data() {
         return {
             email: '',
@@ -36,8 +40,12 @@ export default {
             errors: [],
         }
     },
+    mounted() {
+        document.title = 'Login | Recipes Blog'
+    },
     methods: {
         async LoginFunc() {
+            document.title = 'Login | Recipes Blog'
             const formData = {
                 email: this.email,
                 password: this.password,
@@ -69,7 +77,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     form {
         max-width: 420px;
         margin: 30px auto;
@@ -116,5 +124,11 @@ export default {
     }
     .submit {
         text-align: center;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 </style>

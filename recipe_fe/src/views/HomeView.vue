@@ -17,12 +17,12 @@
         </a>
     </div>
 
-
-    <div class="desserts" @click="getAllDesserts()">
+    <router-link to="/recipes/dessert">
+    <div class="desserts">
         <img class="index-img" src="http://127.0.0.1:8000/media/index/desserts.jpg" alt="welcome-img">
         <h4>Life is short,</h4>
         <p>eat dessert first.</p>
-    </div>
+    </div></router-link>
 </div>
 
 
@@ -55,21 +55,12 @@ export default {
                 .get('/auth/login/')
                 .then(response => {
                     console.log(response.data)
-
+                    document.title = 'Home | Recipes Blog'
                 })
                 .catch(error => {
                     console.log(error)
                 })
         },
-        getAllDesserts(){
-            axios.get(`/recipes/?search=dessert`)
-                .then(response => {
-                    for (let recipe of response.data.results){
-                        console.log(recipe)
-                    }
-                })
-                .catch(err => console.log(err.messages))
-        }
     }
 }
 </script>
@@ -160,9 +151,11 @@ body {
     right: 320px;
     bottom: -180px;
 }
-
 .footer {
-    grid-area: footer;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 a:hover {
@@ -170,52 +163,3 @@ a:hover {
 }
 
 </style>
-
-<!--<template>-->
-<!--    <NavBar/>-->
-<!--    <div>-->
-<!--        <img class="index-img" src="index/http://127.0.0.1:8000/media/background.jpg"-->
-<!--             alt="main-picture">-->
-<!--    </div>-->
-<!--</template>-->
-
-<!--<script>-->
-<!--import NavBar from "@/components/NavBar";-->
-<!--import axios from "axios";-->
-
-<!--export default {-->
-<!--    name: 'HomeView',-->
-<!--    components: {NavBar},-->
-
-<!--    mounted() {-->
-<!--        this.getCurrentUser()-->
-<!--    },-->
-<!--    methods: {-->
-<!--        getCurrentUser(){-->
-<!--            axios-->
-<!--                .get('/auth/login/')-->
-<!--                .then(response => {-->
-<!--                    console.log(response.data)-->
-
-<!--                })-->
-<!--                .catch(error => {-->
-<!--                    console.log(error)-->
-<!--                })-->
-<!--        }-->
-<!--    }-->
-<!--}-->
-<!--</script>-->
-
-<!--<style>-->
-<!--body, html {-->
-<!--  height: 100%;-->
-<!--}-->
-
-<!--.index-img {-->
-<!--    height: 100%;-->
-
-<!--    background-position: center;-->
-<!--    background-repeat: no-repeat;-->
-<!--    background-size: cover;-->
-<!--}-->
-<!--</style>-->

@@ -149,11 +149,14 @@ export default {
         async getRecipeDetails(){
             await axios.get(`/recipes/${this.id}`)
                 .then(response => {
+                    document.title = response.data.title + ' | Recipes Blog'
+
                     this.recipe = response.data
                     this.author = response.data.author
                     if (this.recipe.video !== this.recipe.photo){
                         this.trailer_url="https://www.youtube.com/embed/" + this.recipe.video.split('=')[1]
                     }
+                    document.title = this.recipe.title
                 })
                 .catch(err => console.log(err.messages))
                 this.getCurrentUser()
@@ -330,12 +333,13 @@ h1 {
 
 .button.edit {
     background: green;
-
+    font-size: 18px;
 }
 
 .button.delete{
     margin-left: 22px;
     background: darkred;
+    font-size: 18px;
 }
 
 .buttons-container {

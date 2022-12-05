@@ -30,15 +30,20 @@
             <button>Create post</button>
         </div>
     </form>
+    <div>
+        <Footer/>
+    </div>
 </template>
 
 <script>
 import axios from "axios";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+
 
 export default {
     name: 'CreateView',
-    components: {NavBar},
+    components: {NavBar, Footer},
     data() {
         return {
             title: '',
@@ -62,6 +67,7 @@ export default {
         }
     },
     mounted() {
+        document.title = 'Create | Recipes Blog'
 
     },
     methods: {

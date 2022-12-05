@@ -23,15 +23,19 @@
         </div>
         Or <router-link to="/login">click here</router-link> to login
     </form>
+    <div class="footer">
+        <Footer/>
+    </div>
 </template>
 
 <script>
 import axios from 'axios'
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 export default {
     name: 'Register',
-    components: {NavBar},
+    components: {NavBar, Footer},
     data() {
         return {
             email: '',
@@ -40,6 +44,9 @@ export default {
             rePassword:'',
             errors: [],
         }
+    },
+    mounted() {
+        document.title = 'Register | Recipes Blog'
     },
     methods: {
         registerFunc() {
