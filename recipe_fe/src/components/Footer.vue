@@ -24,6 +24,11 @@ footer{
     padding: 5px 20px;
 
 }
+
+footer p {
+    margin: 2px;
+}
+
 .fa.fa-linkedin {
     color: white;
 }

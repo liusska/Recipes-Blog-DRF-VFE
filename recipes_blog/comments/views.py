@@ -5,4 +5,4 @@ from .models import Comment
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    queryset = Comment.objects.all().order_by('-publication_date')
+    queryset = Comment.objects.all()

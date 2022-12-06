@@ -16,11 +16,11 @@
                 </div>
                 <span class="field">Category:</span>
                 <span class="value">
-                            <button v-on:click="searchByCategory($event)" :value="recipe.category"
-                                    class="button-category">
-                                {{ recipe.category }}
-                            </button>
-                        </span>
+                    <button v-on:click="searchByCategory($event)" :value="recipe.category"
+                            class="button-category">
+                        {{ recipe.category }}
+                    </button>
+                </span>
             </div>
             <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes }} min</span></p>
             <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
@@ -31,11 +31,46 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "RecipePost",
     props: {
         recipe: Object
-    }
+    },
+    // data(){
+    //     return {
+    //         target: '',
+    //         recipes: [],
+    //
+    //     }
+    // },
+    // methods: {
+    //     getAllRecipes(){
+    //         document.title = 'Gallery | Recipe Blog'
+    //         axios.get(`/recipes/?search=${this.target}`)
+    //             .then(response => {
+    //                 for (let recipe of response.data.results){
+    //                     this.getAvgRate(recipe)
+    //                 }
+    //             })
+    //             .catch(err => console.log(err.messages))
+    //     },
+    //     getAvgRate(recipe) {
+    //         axios.get(`/recipes/rate/${recipe.id}`)
+    //             .then(response => {
+    //                 recipe["avgRate"] = response.data.avg_rating
+    //                 console.log(recipe)
+    //                 this.recipes.push(recipe)
+    //             })
+    //             .catch(err => console.log(err.messages))
+    //     },
+    //     searchByCategory(e){
+    //         this.target = e.target.value;
+    //         this.recipes = []
+    //         this.getAllRecipes()
+    //     },
+    // }
 }
 </script>
 

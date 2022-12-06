@@ -1,13 +1,16 @@
 from django.contrib.auth import authenticate
-from rest_framework import generics, status
+from rest_framework import generics, status, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from recipe.models import Recipe
+from recipe.serializers import RecipeSerializer
 from .serializers import SignUpSerializer
 
 
 class LeadPagination(PageNumberPagination):
-    page_size = 2
+    page_size = 10
 
 
 class RegisterView(generics.GenericAPIView):
@@ -60,3 +63,14 @@ class LoginView(APIView):
             "auth": str(self.request.auth),
         }
         return Response(data=content, status=status.HTTP_200_OK)
+
+
+class UserRecipeViewSet(viewsets.ModelViewSet):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    pagination_class = LeadPagination
+
+    def get_queryset(self):
+        queryset = self.queryset
+        query_set = queryset.filter(author=self.request.user.id).order_by('-publication_date')
+        return query_set

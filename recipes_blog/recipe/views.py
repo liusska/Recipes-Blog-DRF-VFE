@@ -1,4 +1,3 @@
-import os
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
@@ -7,11 +6,11 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .serializers import RecipeSerializer, RateSerializer
-from .models import Recipe, Like, Rate
+from .models import Recipe, Like
 
 
 class LeadPagination(PageNumberPagination):
-    page_size = 6
+    page_size = 10
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -26,13 +25,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         if self.request.user.is_authenticated:
             instance = serializer.save(author=self.request.user)
             return instance
-
-
-class UserRecipeView(APIView):
-    def get(self, request):
-        recipes = Recipe.objects.filter(author=self.request.user.id).order_by('-publication_date')
-        serializer = RecipeSerializer(recipes, many=True)
-        return Response(data=serializer.data,  status=status.HTTP_200_OK)
 
 
 class LikeRecipeView(APIView):
@@ -77,9 +69,7 @@ class RateRecipeView(APIView):
     def get(self, request, *args, **kwargs):
         recipe = Recipe.objects.get(pk=self.kwargs['pk'])
         is_rate = recipe.rate_set.filter(user_id=self.request.user.id).exists()
-        # if is_rate:
-        #     user_rate = recipe.rate_set.filter(user_id=self.request.user.id)
-        #     print(user_rate)
+
         return Response(
             data={
                 "recipe": recipe.id,

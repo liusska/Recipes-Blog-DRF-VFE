@@ -12,8 +12,9 @@
             :recipe="recipe"/>
     </div>
     <div class="page-buttons">
-        <button class="button is-light" @click="goToPreviousPage()" v-if="showPreviousButton">Previous</button>
-        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">Next</button>
+        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
+        <button class="button is-light" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
+
     </div>
     <div>
         <Footer/>
@@ -32,7 +33,7 @@ export default {
         return {
             recipes: [],
             showNextButton: false,
-            showPreviousButton: false,
+            goToTopPageButton: false,
             currentPage: 1,
             target:'',
             author:'',
@@ -46,26 +47,26 @@ export default {
             this.currentPage +=1
             this.getAllRecipes()
         },
-        goToPreviousPage() {
-            this.currentPage -= 1
+        goToTopPage(){
+            this.recipes = []
+            this.currentPage = 1
             this.getAllRecipes()
         },
-
         getAllRecipes(){
             this.showNextButton = false
-            this.showPreviousButton = false
             document.title = 'Gallery | Recipe Blog'
             axios.get(`/recipes/?page=${this.currentPage}&search=${this.target}`)
                 .then(response => {
                     for (let recipe of response.data.results){
                         this.getAvgRate(recipe)
                     }
-
                     if (response.data.next){
                         this.showNextButton = true
+                        this.goToTopPageButton = false
                     }
-                    if (response.data.previous){
-                        this.showPreviousButton = true
+                    else {
+                        this.goToTopPageButton = true
+                        this.showNextButton = false
                     }
                 })
                 .catch(err => console.log(err.messages))
@@ -75,11 +76,7 @@ export default {
             this.getAllRecipes()
             this.target = ''
         },
-        searchByCategory(e){
-            this.target = e.target.value;
-            this.recipes = []
-            this.getAllRecipes()
-        },
+
         getAvgRate(recipe) {
             axios.get(`/recipes/rate/${recipe.id}`)
                 .then(response => {
@@ -100,20 +97,6 @@ body {
 p {
     margin: 10px;
 }
-/*span.field{*/
-/*    font-style: italic;*/
-/*    text-transform: lowercase;*/
-/*    background: darkgrey;*/
-/*    color: white;*/
-/*    border-radius: 4px;*/
-/*    padding: 2px 8px;*/
-/*    margin-right: 6px;*/
-/*}*/
-/*span.value {*/
-/*     letter-spacing: 1px;*/
-/*     font-size: 18px;*/
-/*     font-weight: bold;*/
-/*}*/
 .search-box {
     padding: 0;
     display: flex;
@@ -129,14 +112,6 @@ p {
     width: 1200px;
 
 }
-/*.card {*/
-/*    display: flex;*/
-/*    border-radius: 4px;*/
-/*    background: white;*/
-/*    margin-bottom: 2px;*/
-/*    width: 1100px;*/
-/*}*/
-
 .card img{
     height: 300px;
     border-radius: 0 28px 28px 0;
@@ -149,18 +124,6 @@ p {
     height : 550px;
 
 }
-/*.card .info-recipe {*/
-/*    text-align: left;*/
-/*    margin-left: 20px;*/
-
-/*}*/
-/*.info-card .avg-rate {*/
-/*    font-size: 20px;*/
-/*}*/
-
-/*.info-card .fa.fa-star {*/
-/*    font-size: 22px;*/
-/*}*/
 
 .info-recipe a{
     text-decoration: none;
@@ -168,19 +131,11 @@ p {
     font-size: 26px;
 }
 .button.is-light {
-    background: darkslategrey;
+    background: #aaaaaa;
     margin-top: 0;
     margin-bottom: 50px;
 }
-/*button.button-category{*/
-/*    padding: 2px 10px;*/
-/*    background: none;*/
-/*    border: 1px solid darkgray;*/
-/*    border-radius: 3px;*/
-/*    color: black;*/
-/*    font-weight: bold;*/
-/*}*/
-/*button.button-category:hover{*/
-/*    cursor: pointer;*/
-/*}*/
+.button.is-light:hover {
+    cursor: pointer;
+}
 </style>

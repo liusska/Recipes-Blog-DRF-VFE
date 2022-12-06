@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar";
 import axios from "axios";
+import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 
 export default {
@@ -61,6 +61,7 @@ export default {
                     console.log(error)
                 })
         },
+
     }
 }
 </script>
@@ -151,6 +152,10 @@ body {
     right: 320px;
     bottom: -180px;
 }
+div.footer {
+    padding-bottom: 0;
+}
+
 .footer {
     position: fixed;
     bottom: 0;

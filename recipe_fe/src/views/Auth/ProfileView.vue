@@ -11,6 +11,11 @@
     </div>
 
     <h1 v-else>*** No content yet ***</h1>
+    <div class="page-buttons">
+        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
+        <button class="button is-light" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
+
+    </div>
     <div>
         <Footer />
     </div>
@@ -30,12 +35,24 @@ export default {
         return {
             recipes: [],
             user: null,
+            currentPage: 1,
+            showNextButton: false,
+            goToTopPageButton: false,
         }
     },
     mounted() {
         this.getCurrentUser()
     },
     methods: {
+        goToNextPage(){
+            this.currentPage +=1
+            this.getUserRecipes()
+        },
+        goToTopPage(){
+            this.recipes = []
+            this.currentPage = 1
+            this.getUserRecipes()
+        },
         getCurrentUser(){
             document.title = 'Profile | Recipe Blog'
              axios
@@ -49,20 +66,23 @@ export default {
             this.getUserRecipes()
         },
         getUserRecipes(){
-            axios.get(`/recipes/user/`)
+            axios.get(`/auth/user/?page=${this.currentPage}`)
             .then(response => {
-                for (let item in response.data){
-                    if (response.data[item].photo !== null){
-                       response.data[item].photo = `http://127.0.0.1:8000${response.data[item].photo}`
-                    }
-                    console.log(response.data[item])
-                    this.getAvgRate(response.data[item])
+                const userRecipes = response.data.results
+                for (let recipeIndex in userRecipes){
+                    console.log(userRecipes[recipeIndex])
+                    this.getAvgRate(userRecipes[recipeIndex])
                 }
+                 if (response.data.next){
+                        this.showNextButton = true
+                        this.goToTopPageButton = false
+                    }
+                 else {
+                     this.goToTopPageButton = true
+                     this.showNextButton = false
+                 }
             })
             .catch(err => console.log(err.messages))
-        },
-        selectFile(){
-            this.photo = this.$refs.file.files.item(0)
         },
         getAvgRate(recipe) {
             axios.get(`/recipes/rate/${recipe.id}`)
