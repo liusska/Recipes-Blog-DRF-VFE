@@ -1,12 +1,13 @@
 <template>
-    <NavBar />
+    <NavBar/>
 
     <div v-if="recipes.length" class="gallery">
-        <h1><span class="username-field">{{user}}</span> Recipe Posts</h1>
+        <h1><span class="username-field">{{ user }}</span> Recipe Posts</h1>
         <RecipePost
             v-for="recipe in recipes"
             :key="recipe.id"
-            :recipe="recipe"/>
+            :recipe="recipe"
+        />
 
     </div>
 
@@ -17,7 +18,7 @@
 
     </div>
     <div>
-        <Footer />
+        <Footer/>
     </div>
 
 </template>
@@ -30,10 +31,11 @@ import RecipePost from "@/components/RecipesPost";
 
 export default {
     name: "ProfileView",
-    components: { NavBar, Footer, RecipePost },
+    components: {NavBar, Footer, RecipePost},
     data() {
         return {
             recipes: [],
+            target: '',
             user: null,
             currentPage: 1,
             showNextButton: false,
@@ -44,18 +46,18 @@ export default {
         this.getCurrentUser()
     },
     methods: {
-        goToNextPage(){
-            this.currentPage +=1
+        goToNextPage() {
+            this.currentPage += 1
             this.getUserRecipes()
         },
-        goToTopPage(){
+        goToTopPage() {
             this.recipes = []
             this.currentPage = 1
             this.getUserRecipes()
         },
-        getCurrentUser(){
+        getCurrentUser() {
             document.title = 'Profile | Recipe Blog'
-             axios
+            axios
                 .get('/auth/login/')
                 .then(response => {
                     this.user = response.data.user
@@ -65,24 +67,23 @@ export default {
                 })
             this.getUserRecipes()
         },
-        getUserRecipes(){
-            axios.get(`/auth/user/?page=${this.currentPage}`)
-            .then(response => {
-                const userRecipes = response.data.results
-                for (let recipeIndex in userRecipes){
-                    console.log(userRecipes[recipeIndex])
-                    this.getAvgRate(userRecipes[recipeIndex])
-                }
-                 if (response.data.next){
+        getUserRecipes() {
+            axios.get(`/auth/user/?page=${this.currentPage}&search=${this.target}`)
+                .then(response => {
+                    const userRecipes = response.data.results
+                    for (let recipeIndex in userRecipes) {
+                        console.log(userRecipes[recipeIndex])
+                        this.getAvgRate(userRecipes[recipeIndex])
+                    }
+                    if (response.data.next) {
                         this.showNextButton = true
                         this.goToTopPageButton = false
+                    } else {
+                        this.goToTopPageButton = true
+                        this.showNextButton = false
                     }
-                 else {
-                     this.goToTopPageButton = true
-                     this.showNextButton = false
-                 }
-            })
-            .catch(err => console.log(err.messages))
+                })
+                .catch(err => console.log(err.messages))
         },
         getAvgRate(recipe) {
             axios.get(`/recipes/rate/${recipe.id}`)
@@ -103,14 +104,17 @@ export default {
 body {
     background: whitesmoke;
 }
+
 .gallery {
     margin: 40px auto;
     width: 900px;
 
 }
+
 img {
     padding-left: 0;
 }
+
 /*.card {*/
 /*    display: flex;*/
 /*    border-radius: 4px;*/
@@ -118,21 +122,23 @@ img {
 /*    margin-bottom: 2px;*/
 
 /*}*/
-.card img{
+.card img {
     height: 300px;
     border-radius: 0 28px 28px 0;
     border: 5px white solid;
 }
+
 /*.card .info-recipe {*/
 /*    text-align: left;*/
 /*    margin-left: 20px;*/
 
 /*}*/
-.info-recipe a{
+.info-recipe a {
     text-decoration: none;
     color: #2c3e50;
     font-size: 26px;
 }
+
 span.username-field {
     letter-spacing: 2px;
     text-transform: uppercase;

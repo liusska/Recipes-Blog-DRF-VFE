@@ -9,7 +9,9 @@
         <RecipesPost
             v-for="recipe in recipes"
             :key="recipe.id"
-            :recipe="recipe"/>
+            :recipe="recipe"
+            @click="searchByCategory($event)"
+        />
     </div>
     <div class="page-buttons">
         <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
@@ -35,7 +37,7 @@ export default {
             showNextButton: false,
             goToTopPageButton: false,
             currentPage: 1,
-            target:'',
+            target: '',
             author:'',
         }
     },
@@ -43,35 +45,34 @@ export default {
         this.getAllRecipes()
     },
     methods: {
-        goToNextPage(){
-            this.currentPage +=1
+        goToNextPage() {
+            this.currentPage += 1
             this.getAllRecipes()
         },
-        goToTopPage(){
+        goToTopPage() {
             this.recipes = []
             this.currentPage = 1
             this.getAllRecipes()
         },
-        getAllRecipes(){
+        getAllRecipes() {
             this.showNextButton = false
             document.title = 'Gallery | Recipe Blog'
             axios.get(`/recipes/?page=${this.currentPage}&search=${this.target}`)
                 .then(response => {
-                    for (let recipe of response.data.results){
+                    for (let recipe of response.data.results) {
                         this.getAvgRate(recipe)
                     }
-                    if (response.data.next){
+                    if (response.data.next) {
                         this.showNextButton = true
                         this.goToTopPageButton = false
-                    }
-                    else {
+                    } else {
                         this.goToTopPageButton = true
                         this.showNextButton = false
                     }
                 })
                 .catch(err => console.log(err.messages))
         },
-        search(){
+        search() {
             this.recipes = []
             this.getAllRecipes()
             this.target = ''
@@ -84,6 +85,11 @@ export default {
                     this.recipes.push(recipe)
                 })
                 .catch(err => console.log(err.messages))
+        },
+        searchByCategory(e) {
+            this.target = e.target.value;
+            this.recipes = []
+            this.getAllRecipes()
         },
     }
 
