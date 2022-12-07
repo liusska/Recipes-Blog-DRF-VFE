@@ -9,6 +9,7 @@ import ProfileView from "@/views/Auth/ProfileView";
 import EditRecipeView from "@/views/EditRecipeView";
 import DeleteRecipeView from "@/views/DeleteRecipeView";
 import DessertsView from "@/views/DessertsView";
+import LikedByUserView from "@/views/LikedByUserView";
 
 const routes = [
     {
@@ -64,6 +65,11 @@ const routes = [
         path: '/profile',
         name: 'profile',
         component: ProfileView
+    },
+        {
+        path: '/profile/liked',
+        name: 'liked',
+        component: LikedByUserView
     },
 
 ]

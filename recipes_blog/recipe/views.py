@@ -14,7 +14,7 @@ class LeadPagination(PageNumberPagination):
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
-    queryset = Recipe.objects.all().order_by('-publication_date')
+    queryset = Recipe.objects.all().order_by('-publication_date'.split(' ')[0])
     serializer_class = RecipeSerializer
     pagination_class = LeadPagination
     permission_classes = [IsAuthenticatedOrReadOnly]

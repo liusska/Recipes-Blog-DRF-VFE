@@ -61,6 +61,7 @@ class LoginView(APIView):
             "user": str(self.request.user),
             "user_id": self.request.user.id,
             "auth": str(self.request.auth),
+            "register_date": str(self.request.user.date_joined)
         }
         return Response(data=content, status=status.HTTP_200_OK)
 
@@ -72,5 +73,16 @@ class UserRecipeViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
-        query_set = queryset.filter(author=self.request.user.id).order_by('-publication_date')
+        query_set = queryset.filter(author=self.request.user.id).order_by('-publication_date'.split(' ')[0])
         return query_set
+
+
+class UserLikedRecipesViewSet(viewsets.ModelViewSet):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    pagination_class = LeadPagination
+
+    def get_queryset(self):
+        queryset = self.queryset
+        query_set = queryset.filter(like__user_id=self.request.user.id)
+        return query_set.order_by('-publication_date'.split(' ')[0])

@@ -1,16 +1,12 @@
 <template>
     <NavBar/>
-    <h1 class="username">Hello, <span class="username-field">{{ user }}</span></h1>
-    <h3 class="date-joined">Date joined : {{register_date.split(' ')[0] }}</h3>
-    <router-link to="/profile/liked" class="link-to-favorite">View Your <span>{{ favorite_count }}</span> favorite posts <i class="fa fa-heart"></i></router-link>
-    <h2 class="info-h">Posts by <span class="username-field">{{ user }}</span></h2>
+    <h1><span class="username-field">{{ user }}</span> 's Favorite Posts</h1>
     <div v-if="recipes.length" class="gallery">
         <RecipesPost
             v-for="recipe in recipes"
             :key="recipe.id"
             :recipe="recipe"
         />
-
     </div>
 
     <h1 v-else>*** No content yet ***</h1>
@@ -28,12 +24,12 @@
 <script>
 import axios from "axios";
 import NavBar from "@/components/NavBar";
-import Footer from "@/components/Footer";
 import RecipesPost from "@/components/RecipesPost";
+import Footer from "@/components/Footer";
 
 export default {
-    name: "ProfileView",
-    components: {NavBar, Footer, RecipesPost},
+    name: "LikedByUserView",
+    components: { NavBar, RecipesPost, Footer },
     data() {
         return {
             recipes: [],
@@ -43,25 +39,24 @@ export default {
             currentPage: 1,
             showNextButton: false,
             goToTopPageButton: false,
-            favorite_count: 0,
         }
     },
     mounted() {
         this.getCurrentUser()
-        this.getUserFavoriteRecipesCount()
+        this.getUserFavoriteRecipes()
     },
     methods: {
         goToNextPage() {
             this.currentPage += 1
-            this.getUserRecipes()
+            this.getUserFavoriteRecipes()
         },
         goToTopPage() {
             this.recipes = []
             this.currentPage = 1
-            this.getUserRecipes()
+            this.getUserFavoriteRecipes()
         },
         getCurrentUser() {
-            document.title = 'Profile | Recipe Blog'
+            document.title = 'Favorite | Recipe Blog'
 
             axios
                 .get('/auth/login/')
@@ -72,10 +67,10 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-            this.getUserRecipes()
+            this.getUserFavoriteRecipes()
         },
-        getUserRecipes() {
-            axios.get(`/auth/user/?page=${this.currentPage}&search=${this.target}`)
+        getUserFavoriteRecipes() {
+            axios.get(`/auth/liked/`)
                 .then(response => {
                     const userRecipes = response.data.results
                     for (let recipeIndex in userRecipes) {
@@ -99,78 +94,10 @@ export default {
                 })
                 .catch(err => console.log(err.messages))
         },
-        getUserFavoriteRecipesCount() {
-            axios.get(`/auth/liked/`)
-                .then(response => {
-                    this.favorite_count = response.data.count
-                })
-                .catch(err => console.log(err.messages))
-        },
     }
-
-
 }
 </script>
 
-<style>
-
-body {
-    background: whitesmoke;
-}
-
-.gallery {
-    margin: 40px auto;
-    width: 900px;
-
-}
-
-.username {
-    margin-bottom: 0;
-}
-
-img {
-    padding-left: 0;
-}
-
-.card img {
-    height: 300px;
-    border-radius: 0 28px 28px 0;
-    border: 5px white solid;
-}
-
-.info-recipe a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-size: 26px;
-}
-
-.info-h {
-    margin-top: 100px;
-    font-size: 40px;
-    text-transform: uppercase;
-}
-
-.date-joined {
-    margin-top: 0;
-    margin-bottom: 60px;
-    font-style: italic;
-    color: dimgrey;
-}
-
-.link-to-favorite {
-    font-size: 28px;
-    text-decoration: none;
-    border: 6px solid #dddddd;
-    border-radius: 20px;
-    padding: 30px 30px;
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-span.username-field {
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #0b6dff;
-}
+<style scoped>
 
 </style>

@@ -1,9 +1,24 @@
 <template>
-    <NavBar />
+    <NavBar
+        @click="refreshRecipes($event)"
+    />
+    <div class="search-bar">
+        <form class="search-box" @submit.prevent="searchByCategory($event)">
+        <label>Category:</label>
+        <select v-model="target">
+            <option v-for="option in options" :value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <button class="search-button">filter</button>
+    </form>
+
     <form class="search-box" @submit.prevent="search()">
             <input type="text" v-model="target">
             <button class="search-button">Search</button>
     </form>
+    </div>
+
 
     <div v-if="recipes.length" class="gallery">
         <RecipesPost
@@ -39,6 +54,15 @@ export default {
             currentPage: 1,
             target: '',
             author:'',
+            options: [
+                {text: 'Others', value: 'Others'},
+                {text: 'Dessert', value: 'Dessert'},
+                {text: 'Snack', value: 'Snack'},
+                {text: 'Salad', value: 'Salad'},
+                {text: 'Baked', value: 'Baked'},
+                {text: 'Main', value: 'Main'},
+                {text: 'Pizza', value: 'Pizza'},
+            ]
         }
     },
     mounted() {
@@ -60,6 +84,7 @@ export default {
             axios.get(`/recipes/?page=${this.currentPage}&search=${this.target}`)
                 .then(response => {
                     for (let recipe of response.data.results) {
+                        console.log(recipe)
                         this.getAvgRate(recipe)
                     }
                     if (response.data.next) {
@@ -87,10 +112,24 @@ export default {
                 .catch(err => console.log(err.messages))
         },
         searchByCategory(e) {
-            this.target = e.target.value;
-            this.recipes = []
-            this.getAllRecipes()
+            if(e.target.value){
+                this.target = e.target.value;
+                this.recipes = []
+                this.getAllRecipes()
+            }
+            else if (this.target !== ''){
+                this.recipes = []
+                this.getAllRecipes()
+            }
+
         },
+        refreshRecipes(e){
+            if(e.target.textContent){
+                this.target = ''
+                this.recipes = []
+                this.getAllRecipes()
+            }
+        }
     }
 
 }
@@ -103,13 +142,28 @@ body {
 p {
     margin: 10px;
 }
+form label {
+    margin-top: 14px;
+}
+.search-bar {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    align-content: space-between;
+}
+
 .search-box {
     padding: 0;
     display: flex;
+    width: 400px;
+    height: 40px;
 }
+
 .search-button{
+    background: dimgrey;
     margin-top: 0;
 }
+
 .search-button:hover {
     cursor: pointer;
 }

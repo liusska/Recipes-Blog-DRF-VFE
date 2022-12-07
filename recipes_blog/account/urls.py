@@ -6,10 +6,11 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView
 )
-from .views import RegisterView, LoginView, UserRecipeViewSet
+from .views import RegisterView, LoginView, UserRecipeViewSet, UserLikedRecipesViewSet
 
 router = routers.DefaultRouter()
 router.register('user', UserRecipeViewSet)
+router.register('liked', UserLikedRecipesViewSet)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name="register"),
