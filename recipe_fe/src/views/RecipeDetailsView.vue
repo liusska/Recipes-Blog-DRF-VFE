@@ -18,6 +18,12 @@
                     <div>
                         <span class="voted-count">( {{this.rateCount}} voted )</span>
                     </div>
+                    <div class="rated" v-if="this.isRated === true">
+                        <p>
+                            <span><i>*Thank you for the rate &nbsp;</i></span>
+                        </p>
+                    </div>
+                    <hr>
 
                 </div>
 
@@ -29,8 +35,8 @@
                         {{ (recipe.publication_date.split('T')[1]).split('.')[0]}}
                     </span></p>
                 <div v-if="currentUser === author" class="buttons-container">
-                    <router-link class="button edit" :to="{ name: 'edit', params: { id: recipe.id} }"><i class="fa fa-edit"></i>Edit</router-link>
-                    <router-link class="button delete" :to="{ name: 'delete', params: { id: recipe.id} }"><i class="fa fa-trash"></i>Delete</router-link>
+                    <router-link class="button is-info" :to="{ name: 'edit', params: { id: recipe.id} }"><i class="fa fa-edit"></i>Edit</router-link>
+                    <router-link class="button is-danger" :to="{ name: 'delete', params: { id: recipe.id} }"><i class="fa fa-trash"></i>Delete</router-link>
                 </div>
             </div>
             <div class="likes">
@@ -53,7 +59,6 @@
                 <button>Rate</button>
             </form>
         </div>
-        <p v-else><span>Thank you for the rate &nbsp;</span></p>
     </div>
 
 
@@ -75,9 +80,11 @@
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen></iframe>
     </div>
-    <div class="comment-container">
+    <div>
+
         <div class="comments-box" v-if="comments.length">
             <h3>Comments:</h3>
+            <hr>
             <div class="comment" v-for="comment in comments" :key="comment.id">
                 <table class="comments-table">
                     <tr>
@@ -90,15 +97,18 @@
                     </tr>
                 </table>
             </div>
-
         </div>
-        <form class="comment-form" @submit.prevent="commentRecipe()" v-if="this.currentUser !== 'AnonymousUser'">
-            <input type="text" v-model="new_comment" placeholder="Add your comment here...">
-            <button class="comment-form-button">comment</button>
+
+        <div>
+            <form class="comment-form" @submit.prevent="commentRecipe()" v-if="this.currentUser !== 'AnonymousUser'">
+            <input class="input" type="text" v-model="new_comment" placeholder="Add your comment here..." rows="25">
+            <button class="button is-primary">comment</button>
         </form>
         <div class="login-msg" v-else>
             <p>Please login <a href="/login">here</a> to comment</p>
         </div>
+        </div>
+
     </div>
 </div>
 </template>
@@ -237,7 +247,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 h1 {
     margin-bottom: 40px;
     letter-spacing: 2px;
@@ -248,15 +258,31 @@ h1 {
     padding-top: 20px;
     padding-bottom: 40px;
 }
+td {
+    padding: 2px 30px;
 
+}
+tr {
+    border-radius: 20px;
+    border: 1px solid lightslategrey;
+}
 .avg-rate {
     font-size: 28px;
     font-weight: bold;
 }
 
+.input {
+    width: 500px;
+    height: 100px;
+}
+
 .rate {
     display: flex;
     flex-direction: column;
+}
+.rated {
+    font-size: 12px;
+    margin-left: 60px;
 }
 
 .vote-form {
@@ -289,16 +315,11 @@ h1 {
 }
 
 .comment-form{
-    margin-bottom: 100px;
-}
-.comment-form-button {
-    margin: 5px 150px;
-    background: cornflowerblue;
-    text-transform: uppercase;
-}
-
-.comments-box {
-    margin-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto 100px auto;
+    width: 500px;
 }
 
 .comment-form {
@@ -320,26 +341,6 @@ h1 {
     height: 380px;
     padding-left: 200px;
     object-fit: contain;
-}
-
-.button {
-    text-transform: uppercase;
-    background: #0b6dff;
-    border-radius: 4px;
-    padding: 6px 12px;
-    text-decoration: none;
-    color: white;
-}
-
-.button.edit {
-    background: green;
-    font-size: 18px;
-}
-
-.button.delete{
-    margin-left: 22px;
-    background: darkred;
-    font-size: 18px;
 }
 
 .buttons-container {
@@ -385,6 +386,7 @@ h1 {
 .recipe-description h2{
     letter-spacing: 2px;
     text-transform: uppercase;
+    font-size: 36px;
     margin-top: 100px;
     color: slategray;
 }

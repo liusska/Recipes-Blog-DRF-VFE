@@ -1,34 +1,60 @@
 <template>
     <NavBar/>
     <form @submit.prevent="createPost" enctype="multipart/form-data">
-        <label>Title</label>
-        <input type="text" v-model="title">
+        <label class="label">Title</label>
+        <input class="input is-primary" type="text" v-model="title">
 
-        <label>Ingredients</label>
-        <input type="text" v-model="ingredients" placeholder="enter ingredients here separate by comma...">
+        <label class="label">Ingredients</label>
+        <input class="input is-primary" type="text" v-model="ingredients"
+               placeholder="enter ingredients here separate by comma...">
 
-        <label>Category:</label>
-        <select v-model="category">
-            <option v-for="option in options" :value="option.value">
-                {{ option.text }}
-            </option>
-        </select>
-
-        <label>Photo</label>
-        <input type="file" ref="file" @change="selectFile" accept="image/*"/>
-
-        <label>Video</label>
-        <input type="url" v-model="video">
-
-        <label>Time</label>
-        <input type="text" v-model="time_in_minutes">
-
-        <label>Description</label>
-        <textarea cols="76" rows="10" v-model="description"></textarea>
-
-        <div class="submit">
-            <button>Create post</button>
+        <div class="field">
+            <label class="label">Category:</label>
+            <div class="control">
+                <div class="select">
+                    <select v-model="category">
+                        <option v-for="option in options" :value="option.value">
+                            {{ option.text }}
+                        </option>
+                    </select>
+                </div>
+            </div>
         </div>
+
+        <div class="file is-dark">
+            <label class="file-label">
+                <input class="file-input" type="file" ref="file" @change="selectFile" accept="image/*"/>
+                <span class="file-cta">
+                    <span class="file-icon">
+                        <i class="fas fa-upload"></i>
+                    </span>
+                    <span class="file-label">
+                        Choose a file…
+                    </span>
+                </span>
+            </label>
+        </div>
+
+
+        <label class="label">Video</label>
+        <input class="input is-primary" type="url" v-model="video">
+
+        <label class="label">Time</label>
+        <input class="input is-primary" type="text" v-model="time_in_minutes">
+
+        <label class="label">Description</label>
+        <textarea class="textarea is-primary" placeholder="Describe steps" v-model="description"></textarea>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-link">Create post</button>
+            </div>
+
+            <div class="control">
+                <button class="button is-link is-light">Cancel</button>
+            </div>
+        </div>
+
     </form>
     <div>
         <Footer/>
@@ -112,46 +138,42 @@ form {
     border-radius: 10px;
 }
 
-label {
-    color: #aaa;
-    display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.8em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
-}
-
-::placeholder {
-    color: #555555;
-    font-style: italic;
-}
-
-input, select {
-    display: block;
-    padding: 10px 6px;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-}
-
-textarea {
-    border-color: snow;
-}
-
-button {
-    background: #0b6dff;
-    border: 0;
-    padding: 10px 20px;
+.control {
     margin-top: 20px;
-    color: white;
-    border-radius: 20px;
 }
 
-.submit {
-    text-align: center;
+.label {
+    /*color: #aaa;*/
+    /*display: inline-block;*/
+    margin: 25px 0 15px;
+    /*font-size: 0.8em;*/
+    /*text-transform: uppercase;*/
+    /*letter-spacing: 1px;*/
+    /*font-weight: bold;*/
 }
+
+/*::placeholder {*/
+/*    color: #555555;*/
+/*    font-style: italic;*/
+/*}*/
+
+/*input, select {*/
+/*    display: block;*/
+/*    padding: 10px 6px;*/
+/*    width: 100%;*/
+/*    box-sizing: border-box;*/
+/*    border: none;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*    color: #555;*/
+/*}*/
+
+/*textarea {*/
+/*    border-color: snow;*/
+/*}*/
+
+
+/*.submit {*/
+/*    text-align: center;*/
+/*}*/
 
 </style>

@@ -1,33 +1,48 @@
 <template>
     <NavBar/>
     <form @submit.prevent="editPost" enctype="multipart/form-data">
-        <label>Title</label>
-        <input type="text" v-model="title">
+        <label class="label">Title</label>
+        <input  class="input is-primary" type="text" v-model="title">
 
-        <label>Ingredients</label>
-        <input type="text" v-model="ingredients">
+        <label class="label">Ingredients</label>
+        <input class="input is-primary"  type="text" v-model="ingredients">
 
-        <label>Category:</label>
-        <select v-model="category">
-            <option v-for="option in options" :value="option.value">
-                {{ option.text }}
-            </option>
-        </select>
+        <div class="field">
+            <label class="label">Category:</label>
+            <div class="control">
+                <div class="select">
+                    <select v-model="category">
+                        <option v-for="option in options" :value="option.value">
+                            {{ option.text }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
-        <label>Photo</label>
-        <input type="file" ref="file" @change="selectFile" accept="image/*" :src=photo>
+        <div class="file is-dark">
+            <label class="file-label">
+                <input type="file" ref="file" @change="selectFile" accept="image/*" :src=photo>
+            </label>
+        </div>
 
-        <label>Video</label>
-        <input type="url" v-model="video">
+        <label class="label">Video</label>
+        <input class="input is-primary"  type="url" v-model="video">
 
-        <label>Time</label>
-        <input type="text" v-model="time_in_minutes">
+        <label class="label">Time</label>
+        <input class="input is-primary"  type="text" v-model="time_in_minutes">
 
-        <label>Description</label>
-        <textarea cols="76" rows="10" v-model="description"></textarea>
+        <label class="label">Description</label>
+        <textarea class="textarea is-primary"  cols="76" rows="10" v-model="description"></textarea>
 
-        <div class="submit">
-            <button>Edit post</button>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary">Edit post</button>
+            </div>
+
+            <div class="control">
+                <button class="button is-link is-light">Cancel</button>
+            </div>
         </div>
     </form>
 
@@ -139,40 +154,40 @@ form {
     border-radius: 10px;
 }
 
-label {
-    color: #aaa;
-    display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.8em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
-}
+/*label {*/
+/*    color: #aaa;*/
+/*    display: inline-block;*/
+/*    margin: 25px 0 15px;*/
+/*    font-size: 0.8em;*/
+/*    text-transform: uppercase;*/
+/*    letter-spacing: 1px;*/
+/*    font-weight: bold;*/
+/*}*/
 
-input, select {
-    display: block;
-    padding: 10px 6px;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-}
+/*input, select {*/
+/*    display: block;*/
+/*    padding: 10px 6px;*/
+/*    width: 100%;*/
+/*    box-sizing: border-box;*/
+/*    border: none;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*    color: #555;*/
+/*}*/
 
-textarea {
-    border-color: snow;
-}
+/*textarea {*/
+/*    border-color: snow;*/
+/*}*/
 
-button {
-    background: #0b6dff;
-    border: 0;
-    padding: 10px 20px;
-    margin-top: 20px;
-    color: white;
-    border-radius: 20px;
-}
+/*button {*/
+/*    background: #0b6dff;*/
+/*    border: 0;*/
+/*    padding: 10px 20px;*/
+/*    margin-top: 20px;*/
+/*    color: white;*/
+/*    border-radius: 20px;*/
+/*}*/
 
-.submit {
-    text-align: center;
-}
+/*.submit {*/
+/*    text-align: center;*/
+/*}*/
 </style>

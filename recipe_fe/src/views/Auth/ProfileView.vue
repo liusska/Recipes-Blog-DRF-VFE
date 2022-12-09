@@ -1,9 +1,24 @@
 <template>
     <NavBar/>
-    <h1 class="username">Hello, <span class="username-field">{{ user }}</span></h1>
-    <h3 class="date-joined">Date joined : {{register_date.split(' ')[0] }}</h3>
-    <router-link to="/profile/liked" class="link-to-favorite">View Your <span>{{ favorite_count }}</span> favorite posts <i class="fa fa-heart"></i></router-link>
-    <h2 class="info-h">Posts by <span class="username-field">{{ user }}</span></h2>
+    <section class="hero is-info">
+        <div class="hero-body">
+            <p class="title">Hello, {{ user }}</p>
+            <p class="subtitle">Date joined : {{register_date.split(' ')[0] }}</p>
+        </div>
+
+    </section>
+
+<div class="card">
+  <div class="card-content">
+    <p class="title">
+       <router-link to="/profile/liked" class="link-to-favorite">View Your <span>{{ favorite_count }}</span> favorite posts <i class="fa fa-heart"></i></router-link>
+    </p>
+  </div>
+</div>
+
+
+    <h2 class="info-h">Posts By <span>{{ user }}</span></h2>
+
     <div v-if="recipes.length" class="gallery">
         <RecipesPost
             v-for="recipe in recipes"
@@ -15,10 +30,10 @@
 
     <h1 v-else>*** No content yet ***</h1>
     <div class="page-buttons">
-        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
-        <button class="button is-light" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
-
+        <button class="button is-primary" @click="goToNextPage()" v-if="showNextButton">view more</button>
+        <button class="button is-danger" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
     </div>
+
     <div>
         <Footer/>
     </div>
@@ -112,65 +127,29 @@ export default {
 }
 </script>
 
-<style>
-
-body {
-    background: whitesmoke;
-}
-
+<style scoped>
 .gallery {
-    margin: 40px auto;
-    width: 900px;
-
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
 }
 
-.username {
-    margin-bottom: 0;
+.page-buttons {
+    margin-bottom: 30px;
 }
 
-img {
-    padding-left: 0;
-}
-
-.card img {
-    height: 300px;
-    border-radius: 0 28px 28px 0;
-    border: 5px white solid;
-}
-
-.info-recipe a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-size: 26px;
+.fa.fa-heart{
+    color: red;
 }
 
 .info-h {
     margin-top: 100px;
     font-size: 40px;
-    text-transform: uppercase;
 }
 
-.date-joined {
-    margin-top: 0;
-    margin-bottom: 60px;
-    font-style: italic;
-    color: dimgrey;
-}
-
-.link-to-favorite {
-    font-size: 28px;
-    text-decoration: none;
-    border: 6px solid #dddddd;
-    border-radius: 20px;
-    padding: 30px 30px;
-    color: #2c3e50;
+.info-h span {
     font-weight: bold;
-}
-
-span.username-field {
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #0b6dff;
 }
 
 </style>

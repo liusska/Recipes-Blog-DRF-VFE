@@ -1,28 +1,32 @@
 <template>
-    <h1>Are you sure you want to delete this post?</h1>
-    <div class="gallery">
-        <div class="card">
+    <NavBar />
+    <h1 class="title">Are you sure you want to delete this post?</h1>
+    <div class="card">
+    <div class="card-image">
+        <figure class="image is-256x256">
             <img :src="recipe.photo" alt="">
-            <div class="info-recipe">
-                <router-link :to="{ name: 'recipesDetails', params: { id: id} }">
-                    <h2>{{ recipe.title }}</h2>
-                </router-link>
-                <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
-                    <p><span class="field">Ingredients: </span><span class="value">{{ recipe.ingredients }}</span></p>
-                    <p><span class="field">Time: </span><span class="value">{{ recipe.time_in_minutes}} min</span></p>
-                    <p><span class="field">author: </span><span class="value">{{ recipe.author }}</span></p>
-                <button class="button delete" @click="deletePost">Delete</button>
-                <button class="button cancel" @click="this.$router.push('/recipes' )">cancel</button>
-            </div>
-        </div>
+        </figure>
     </div>
+    <div class="card-content">
+        <router-link :to="{ name: 'recipesDetails', params: { id: id} }">
+            <h2>{{ recipe.title }}</h2>
+        </router-link>
+        <p><span class="field">Category: </span><span class="value">{{ recipe.category }}</span></p>
+        <button class="button is-danger" @click="deletePost">Delete</button>
+        <button class="button is-info" @click="this.$router.push('/recipes' )">cancel</button>
+    </div>
+    </div>
+    <Footer/>
 </template>
 
 <script>
 import axios from "axios";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 export default {
     name: "DeleteRecipeView",
+    components: {NavBar, Footer},
     props: ['id'],
     data() {
         return {
@@ -46,7 +50,18 @@ export default {
 </script>
 
 <style scoped>
-.button.delete {
-    margin-right: 24px;
+h1 {
+    margin-top: 120px;
 }
+
+.card{
+    margin: 80px auto 80px auto;
+    width: 300px;
+    position: center;
+}
+
+button {
+    margin: 5px;
+}
+
 </style>

@@ -1,26 +1,47 @@
 <template>
     <NavBar/>
-    <form @submit.prevent="registerFunc">
-        <label>Email</label>
-        <input type="email" v-model="email">
+    <form class="box" @submit.prevent="registerFunc">
 
-        <label>username</label>
-        <input type="text" v-model="username">
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="email" required v-model="email">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-envelope"></i>
+                </span>
+            </div>
+         </div>
 
-        <label>Password</label>
-        <input type="password" v-model="password">
+        <div class="field">
+            <label class="label">Username</label>
+            <div class="control has-icons-left has-icons-right">
+                <input class="input" type="text" v-model="username" >
+                <span class="icon is-small is-left">
+                    <i class="fa fa-user"></i>
+                </span>
+            </div>
+        </div>
 
-        <label>Repeat Password</label>
-        <input type="password" v-model="rePassword">
+        <div class="field">
+            <label class="label">Password</label>
+            <input type="password" v-model="password" placeholder="********">
+        </div>
+        <div class="field">
+            <label class="label">Repeat Password</label>
+            <input type="password" v-model="rePassword" placeholder="********">
+        </div>
 
          <div class="error" v-if="errors.length">
              <ul v-for="error in errors" :key="error">
                  <li>{{ error }}</li>
              </ul>
          </div>
-        <div class="submit">
-            <button>Create an account</button>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary">Create an account</button>
+            </div>
         </div>
+
         Or <router-link to="/login">click here</router-link> to login
     </form>
     <div class="footer">
@@ -94,7 +115,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     form {
         max-width: 420px;
         margin: 30px auto;
@@ -103,14 +124,13 @@ export default {
         padding: 40px;
         border-radius: 10px;
     }
-    label {
+    .label {
         color: #aaa;
         display: inline-block;
         margin: 25px 0 15px;
-        font-size: 0.6em;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        font-weight: bold;
     }
     input, select {
         display: block;
@@ -127,17 +147,6 @@ export default {
         margin: 0 10px 0 0;
         position: relative;
         top: 2px
-    }
-    button {
-        background: #0b6dff;
-        border: 0;
-        padding: 10px 20px;
-        margin-top: 20px;
-        color: white;
-        border-radius: 20px;
-    }
-    .submit {
-        text-align: center;
     }
     .error {
         color: red;

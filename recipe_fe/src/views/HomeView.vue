@@ -26,7 +26,7 @@
 </div>
 
 
-  <div class="footer">
+  <div>
       <Footer/>
   </div>
 </div>
@@ -66,105 +66,95 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
-.container {
-    margin: 0 auto;
-    width: 70vw;
-    height: 80vh;
-}
+/*.container {*/
+/*    margin: 0 auto;*/
+/*    width: 70vw;*/
+/*    height: 80vh;*/
+/*}*/
 
-.container > div {
-    text-align: center;
-    padding: 20px 0;
-    font-size: 30px;
-}
+/*.container > div {*/
+/*    text-align: center;*/
+/*    padding: 20px 0;*/
+/*    font-size: 30px;*/
+/*}*/
 
-.menu {
-    display: flex;
-    justify-content: space-between;
-}
+/*.menu {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-body {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
+/*body {*/
+/*    box-sizing: border-box;*/
+/*    padding: 0;*/
+/*    margin: 0;*/
+/*}*/
 
-.desserts h4, .desserts p, .create-item p, .create-item h4, .welcome p{
-    position: absolute;
-    border: 4px solid white;
-    background: white;
-    font-size: 40px;
-    color: #555555;
-    font-style: italic;
-    text-transform: uppercase;
-    font-weight: bold;
-}
+/*.desserts h4, .desserts p, .create-item p, .create-item h4, .welcome p{*/
+/*    position: absolute;*/
+/*    border: 4px solid white;*/
+/*    background: white;*/
+/*    font-size: 40px;*/
+/*    color: #555555;*/
+/*    font-style: italic;*/
+/*    text-transform: uppercase;*/
+/*    font-weight: bold;*/
+/*}*/
 
-.index-img{
-    image-resolution: normal;
-    width: 1200px;
-}
+/*.index-img{*/
+/*    image-resolution: normal;*/
+/*    width: 1200px;*/
+/*}*/
 
-.welcome {
-    grid-area: header;
-    position: relative;
-    margin-top: 30px;
-    z-index: -1;
-}
+/*.welcome {*/
+/*    grid-area: header;*/
+/*    position: relative;*/
+/*    margin-top: 30px;*/
+/*    z-index: -1;*/
+/*}*/
 
-.welcome p {
-    right: 400px;
-    bottom: 60px;
-}
+/*.welcome p {*/
+/*    right: 400px;*/
+/*    bottom: 60px;*/
+/*}*/
 
-.create-item h4{
-    left: 400px;
-    bottom: -160px;
-}
+/*.create-item h4{*/
+/*    left: 400px;*/
+/*    bottom: -160px;*/
+/*}*/
 
-.create-item p {
-    left: 320px;
-    bottom: -180px;
-}
+/*.create-item p {*/
+/*    left: 320px;*/
+/*    bottom: -180px;*/
+/*}*/
 
-.create-item img {
-    width: 590px;
-    height: 400px;
-}
+/*.create-item img {*/
+/*    width: 590px;*/
+/*    height: 400px;*/
+/*}*/
 
-.desserts:hover {
-    cursor: pointer;
-}
-.desserts img {
-    grid-area: right;
-    width: 590px;
-    height: 400px;
-}
+/*.desserts:hover {*/
+/*    cursor: pointer;*/
+/*}*/
+/*.desserts img {*/
+/*    grid-area: right;*/
+/*    width: 590px;*/
+/*    height: 400px;*/
+/*}*/
 
-.desserts h4 {
-    right: 400px;
-    bottom: -160px;
-}
+/*.desserts h4 {*/
+/*    right: 130px;*/
+/*    bottom: -60px;*/
+/*}*/
 
-.desserts p {
-    right: 320px;
-    bottom: -180px;
-}
-div.footer {
-    padding-bottom: 0;
-}
+/*.desserts p {*/
+/*    right: 90px;*/
+/*    bottom: -170px;*/
+/*}*/
 
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-a:hover {
-    cursor: pointer;
-}
+/*a:hover {*/
+/*    cursor: pointer;*/
+/*}*/
 
 </style>

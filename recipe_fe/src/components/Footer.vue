@@ -1,11 +1,13 @@
 <template>
-    <footer>
-    <p>
-        Copyright &copy;2022 | Designed by <span>Lyudmila Sokolova &nbsp;</span>
-        <a href="https://www.linkedin.com/in/liusska/" target="_blank">
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <i>Copyright</i> &copy;2022 | Designed by <b>Lyudmila Sokolova &nbsp;</b>
+            <a href="https://www.linkedin.com/in/liusska/" target="_blank">
             <i class="fa fa-linkedin"></i>
-        </a>
-    </p>
+            </a>
+            </p>
+        </div>
 </footer>
 
 </template>
@@ -17,19 +19,12 @@ export default {
 </script>
 
 <style scoped>
-footer{
-    background: #555555;
+
+.footer{
     font-size: 16px;
     color: white;
     padding: 5px 20px;
-    margin-top: 110px;
+    background: lightslategrey;
 }
 
-footer p {
-    margin: 2px;
-}
-
-.fa.fa-linkedin {
-    color: white;
-}
 </style>

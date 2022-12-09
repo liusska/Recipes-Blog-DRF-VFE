@@ -1,5 +1,5 @@
 <template>
-     <nav>
+     <nav  class="navbar" role="navigation" aria-label="main navigation">
         <div>
             <router-link class="home-button" to="/"><i class="fa fa-home"></i>Home</router-link>
             <router-link to="/recipes">Recipes</router-link>
@@ -11,7 +11,7 @@
             <router-link to="/login" v-if="!is_logged">Login</router-link>
 
             <router-link to="/profile" v-if="is_logged"><i class="fa fa-user">Profile</i></router-link>
-            <button class="logout-button" @click="logout()" v-if="is_logged">Logout</button>
+            <button class="button is-dark" @click="logout()" v-if="is_logged">Logout</button>
 
         </div>
     </nav>
@@ -48,7 +48,6 @@ nav {
 
 
 nav a {
-    font-weight: bold;
     text-decoration: none;
     letter-spacing: 0.5px;
     color: #2c3e50;
@@ -72,14 +71,6 @@ button:hover {
     border-radius: 4px;
     padding: 8px 16px;
 
-}
-.logout-button{
-    font-size: 18px;
-    font-weight: bold;
-    text-transform: uppercase;
-    background: grey;
-    margin: 10px 30px;
-    padding: 10px 18px;
 }
 
 </style>

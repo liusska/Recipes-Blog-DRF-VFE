@@ -2,21 +2,28 @@
     <NavBar
         @click="refreshRecipes($event)"
     />
-    <div class="search-bar">
-        <form class="search-box" @submit.prevent="searchByCategory($event)">
-        <label>Category:</label>
-        <select v-model="target">
-            <option v-for="option in options" :value="option.value">
-                {{ option.text }}
-            </option>
-        </select>
-        <button class="search-button">filter</button>
-    </form>
 
-    <form class="search-box" @submit.prevent="search()">
-            <input type="text" v-model="target">
-            <button class="search-button">Search</button>
-    </form>
+    <div class="search-bar">
+
+        <form class="search-box" @submit.prevent="searchByCategory($event)">
+            <div class="select">
+                <select v-model="target">
+                    <option v-for="option in options" :value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
+            </div>
+            <button class="button is-primary">Filter by Category</button>
+
+        </form>
+
+        <form @submit.prevent="search()">
+            <div class="search-container">
+                <input class="input" type="text" v-model="target">
+                <button class="button is-primary">Search</button>
+            </div>
+
+        </form>
     </div>
 
 
@@ -29,9 +36,8 @@
         />
     </div>
     <div class="page-buttons">
-        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
-        <button class="button is-light" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
-
+        <button class="button is-primary" @click="goToNextPage()" v-if="showNextButton">view more</button>
+        <button class="button is-danger" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
     </div>
     <div>
         <Footer/>
@@ -135,67 +141,79 @@ export default {
 }
 </script>
 
-<style>
-body {
-    background: whitesmoke;
-}
-p {
-    margin: 10px;
-}
-form label {
-    margin-top: 14px;
-}
-.search-bar {
+<style scoped>
+
+.gallery {
     display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-    align-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
 }
 
-.search-box {
-    padding: 0;
+.search-bar {
     display: flex;
-    width: 400px;
+    margin-top: 30px;
+    flex-direction: row-reverse;
+    justify-content: space-evenly
+}
+
+select {
+    width: 260px;
     height: 40px;
 }
 
-.search-button{
-    background: dimgrey;
-    margin-top: 0;
+.search-container {
+    display: flex;
 }
 
-.search-button:hover {
-    cursor: pointer;
-}
-.gallery {
-    margin: 60px 20px;
-    width: 1200px;
-
-}
-.card img{
-    height: 300px;
-    border-radius: 0 28px 28px 0;
-    border: 5px white solid;
-    object-fit: fill;
+.page-buttons {
+    margin-bottom: 30px;
 }
 
-.card img:hover {
-    width: 600px;
-    height : 550px;
+/*.search-box {*/
+/*    padding: 0;*/
+/*    display: flex;*/
+/*    width: 400px;*/
+/*    height: 40px;*/
+/*}*/
 
-}
+/*.search-button{*/
+/*    background: dimgrey;*/
+/*    margin-top: 0;*/
+/*}*/
 
-.info-recipe a{
-    text-decoration: none;
-    color: #2c3e50;
-    font-size: 26px;
-}
-.button.is-light {
-    background: #aaaaaa;
-    margin-top: 0;
-    margin-bottom: 50px;
-}
-.button.is-light:hover {
-    cursor: pointer;
-}
+/*.search-button:hover {*/
+/*    cursor: pointer;*/
+/*}*/
+/*.gallery {*/
+/*    margin: 60px 20px;*/
+/*    width: 1200px;*/
+
+/*}*/
+/*.card img{*/
+/*    height: 300px;*/
+/*    border-radius: 0 28px 28px 0;*/
+/*    border: 5px white solid;*/
+/*    object-fit: fill;*/
+/*}*/
+
+/*.card img:hover {*/
+/*    width: 600px;*/
+/*    height : 550px;*/
+
+/*}*/
+
+/*.info-recipe a{*/
+/*    text-decoration: none;*/
+/*    color: #2c3e50;*/
+/*    font-size: 26px;*/
+/*}*/
+/*.button.is-light {*/
+/*    background: #aaaaaa;*/
+/*    margin-top: 0;*/
+/*    margin-bottom: 50px;*/
+/*}*/
+/*.button.is-light:hover {*/
+/*    cursor: pointer;*/
+/*}*/
 </style>
