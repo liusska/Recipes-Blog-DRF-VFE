@@ -11,8 +11,8 @@
 
     <h1 v-else>*** No content yet ***</h1>
     <div class="page-buttons">
-        <button class="button is-light" @click="goToNextPage()" v-if="showNextButton">view more</button>
-        <button class="button is-light" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
+        <button class="button is-primary" @click="goToNextPage()" v-if="showNextButton">view more</button>
+        <button class="button is-danger" @click="goToTopPage()" v-if="goToTopPageButton">go to top</button>
 
     </div>
     <div>
@@ -43,7 +43,6 @@ export default {
     },
     mounted() {
         this.getCurrentUser()
-        this.getUserFavoriteRecipes()
     },
     methods: {
         goToNextPage() {
@@ -89,6 +88,7 @@ export default {
         getAvgRate(recipe) {
             axios.get(`/recipes/rate/${recipe.id}`)
                 .then(response => {
+                    console.log(recipe)
                     recipe["avgRate"] = response.data.avg_rating
                     this.recipes.push(recipe)
                 })
@@ -99,5 +99,23 @@ export default {
 </script>
 
 <style scoped>
+ h1 {
+     font-size: 38px;
+     margin-top: 30px;
+ }
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
+}
 
+select {
+    width: 260px;
+    height: 40px;
+}
+
+.page-buttons {
+    margin: 30px auto;
+}
 </style>

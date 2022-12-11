@@ -1,35 +1,40 @@
 <template>
-  <NavBar/>
+    <NavBar/>
+    <div class="banner">
+        <div class="content">
 
-<div class="container">
-    <a href="/recipes">
-        <div class="welcome">
-            <img class="index-img" src="http://127.0.0.1:8000/media/index/welcome.jpg" alt="welcome-img">
-            <p>View all recipes</p>
+            <h1>Welcome to Recipes Blog</h1>
+            <div class="item-links">
+
+
+                <div class="item" v-if="is_logged">
+                    <a href="/recipes/create">
+                        <h3>Share your favorite recipes </h3>
+                        <p>Create post</p>
+                    </a>
+                </div>
+
+                <div class="item">
+                    <a href="/recipes">
+                        <h3>View all recipes</h3>
+                        <p>Gallery</p>
+                    </a>
+                </div>
+
+                <div class="item">
+                    <a href="/recipes/dessert">
+                        <h3>Life is short, eat dessert first. </h3>
+                        <p>Desserts</p>
+                    </a>
+                </div>
+
+            </div>
         </div>
-    </a>
-    <div class="menu">
-        <div class="create-item">
-        <a href="/recipes/create">
-            <img class="index-img" src="http://127.0.0.1:8000/media/index/create.jpg" alt="welcome-img">
-            <h4>Share with as </h4>
-            <p>your favorite recipe </p>
-        </a>
     </div>
 
-    <router-link to="/recipes/dessert">
-    <div class="desserts">
-        <img class="index-img" src="http://127.0.0.1:8000/media/index/desserts.jpg" alt="welcome-img">
-        <h4>Life is short,</h4>
-        <p>eat dessert first.</p>
-    </div></router-link>
-</div>
-
-
-  <div>
-      <Footer/>
-  </div>
-</div>
+    <div>
+        <Footer/>
+    </div>
 
 </template>
 
@@ -43,7 +48,8 @@ export default {
     components: {Footer, NavBar},
     data(){
         return {
-            desserts: []
+            desserts: [],
+            is_logged: (localStorage.getItem('token') !== null),
         }
     },
     mounted() {
@@ -68,93 +74,68 @@ export default {
 
 <style scoped>
 
-/*.container {*/
-/*    margin: 0 auto;*/
-/*    width: 70vw;*/
-/*    height: 80vh;*/
-/*}*/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
 
-/*.container > div {*/
-/*    text-align: center;*/
-/*    padding: 20px 0;*/
-/*    font-size: 30px;*/
-/*}*/
+div.banner{
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(
+        rgba(0,0,0,0.75),
+        rgba(0,0,0,0.75)),
+        url("http://127.0.0.1:8000/media/index/background.jpg");
+    background-size: cover;
+    background-position: center;
+}
 
-/*.menu {*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*}*/
+.content  {
 
-/*body {*/
-/*    box-sizing: border-box;*/
-/*    padding: 0;*/
-/*    margin: 0;*/
-/*}*/
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: white;
+}
 
-/*.desserts h4, .desserts p, .create-item p, .create-item h4, .welcome p{*/
-/*    position: absolute;*/
-/*    border: 4px solid white;*/
-/*    background: white;*/
-/*    font-size: 40px;*/
-/*    color: #555555;*/
-/*    font-style: italic;*/
-/*    text-transform: uppercase;*/
-/*    font-weight: bold;*/
-/*}*/
+.item {
+    background: linear-gradient(
+        rgba(238, 232, 232, 0.75),
+        rgba(213, 208, 208, 0.75));
+    height: 100px;
+    width: 500px;
+    margin-top: 100px;
+    padding-top: 20px;
+    border-radius: 20px;
+}
 
-/*.index-img{*/
-/*    image-resolution: normal;*/
-/*    width: 1200px;*/
-/*}*/
+.item-links {
+    display: flex;
+    justify-content: space-evenly;
+}
 
-/*.welcome {*/
-/*    grid-area: header;*/
-/*    position: relative;*/
-/*    margin-top: 30px;*/
-/*    z-index: -1;*/
-/*}*/
+.item h3 {
+    text-transform: uppercase;
+}
 
-/*.welcome p {*/
-/*    right: 400px;*/
-/*    bottom: 60px;*/
-/*}*/
+.item p{
+    text-decoration: underline;
+    font-size: 20px;
+    text-transform: uppercase;
+    color: darkslategray;
+}
 
-/*.create-item h4{*/
-/*    left: 400px;*/
-/*    bottom: -160px;*/
-/*}*/
-
-/*.create-item p {*/
-/*    left: 320px;*/
-/*    bottom: -180px;*/
-/*}*/
-
-/*.create-item img {*/
-/*    width: 590px;*/
-/*    height: 400px;*/
-/*}*/
-
-/*.desserts:hover {*/
-/*    cursor: pointer;*/
-/*}*/
-/*.desserts img {*/
-/*    grid-area: right;*/
-/*    width: 590px;*/
-/*    height: 400px;*/
-/*}*/
-
-/*.desserts h4 {*/
-/*    right: 130px;*/
-/*    bottom: -60px;*/
-/*}*/
-
-/*.desserts p {*/
-/*    right: 90px;*/
-/*    bottom: -170px;*/
-/*}*/
-
-/*a:hover {*/
-/*    cursor: pointer;*/
-/*}*/
+.content h1 {
+    margin: 20px auto;
+    font-weight: bold;
+    font-size: 70px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    line-height: 25px;
+    color: white;
+}
 
 </style>

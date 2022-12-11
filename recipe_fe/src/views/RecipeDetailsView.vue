@@ -48,16 +48,19 @@
             </div>
         </div>
      </div>
-    <div v-if="this.currentUser !== 'AnonymousUser'">
-        <div v-if="this.isRated === false">
-            <form @submit.prevent="rateRecipe()" class="vote-form" >
-                <select v-model="newRate">
-                    <option v-for="option in options" :value="option.value">
+    <div class="field" v-if="this.currentUser !== 'AnonymousUser'">
+        <div class="control" v-if="this.isRated === false">
+            <div class="select">
+                 <form @submit.prevent="rateRecipe()">
+                     <select v-model="newRate">
+                        <option v-for="option in options" :value="option.value">
                         {{ option.text }}
-                    </option>
-                </select>
-                <button>Rate</button>
+                        </option>
+                    </select>
+                <button class="button is-primary">Rate</button>
             </form>
+            </div>
+
         </div>
     </div>
 
@@ -285,18 +288,6 @@ tr {
     margin-left: 60px;
 }
 
-.vote-form {
-    justify-content: center;
-    background: inherit;
-    padding: 0;
-    width: 140px;
-}
-
-.vote-form select {
-    display: inline-block;
-    width: 60px;
-    font-weight: bold;
-}
 .vote-form button {
     margin: 0;
     background: #555555;

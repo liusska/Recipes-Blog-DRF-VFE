@@ -1,8 +1,8 @@
 <template>
     <NavBar/>
-    <section class="hero is-info">
+    <section class="hero">
         <div class="hero-body">
-            <p class="title">Hello, {{ user }}</p>
+            <p class="title">Hello, <span>{{ user }}</span></p>
             <p class="subtitle">Date joined : {{register_date.split(' ')[0] }}</p>
         </div>
 
@@ -135,6 +135,16 @@ export default {
     width: 100vw;
 }
 
+.card-content {
+    background: #2f2f2f;
+    width: 800px;
+    margin: 30px auto;
+}
+
+.card-content p a{
+    color: white;
+}
+
 .page-buttons {
     margin-bottom: 30px;
 }
@@ -149,6 +159,16 @@ export default {
 }
 
 .info-h span {
+    font-weight: bold;
+}
+
+.page-buttons {
+    margin: 30px auto;
+}
+
+p.title span {
+    text-transform: uppercase;
+    letter-spacing: 1px;
     font-weight: bold;
 }
 

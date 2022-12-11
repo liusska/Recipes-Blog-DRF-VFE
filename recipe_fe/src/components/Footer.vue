@@ -24,7 +24,7 @@ export default {
     font-size: 16px;
     color: white;
     padding: 5px 20px;
-    background: lightslategrey;
+    background: #2f2f2f;
 }
 
 </style>

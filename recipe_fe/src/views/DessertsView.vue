@@ -61,4 +61,16 @@ export default {
 
 <style scoped>
 
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100vw;
+}
+
+select {
+    width: 260px;
+    height: 40px;
+}
+
 </style>

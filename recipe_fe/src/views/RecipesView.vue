@@ -1,10 +1,10 @@
 <template>
     <NavBar
         @click="refreshRecipes($event)"
+
     />
 
     <div class="search-bar">
-
         <form class="search-box" @submit.prevent="searchByCategory($event)">
             <div class="select">
                 <select v-model="target">
@@ -42,6 +42,7 @@
     <div>
         <Footer/>
     </div>
+
 </template>
 
 <script>
@@ -167,53 +168,6 @@ select {
 }
 
 .page-buttons {
-    margin-bottom: 30px;
+    margin: 30px auto;
 }
-
-/*.search-box {*/
-/*    padding: 0;*/
-/*    display: flex;*/
-/*    width: 400px;*/
-/*    height: 40px;*/
-/*}*/
-
-/*.search-button{*/
-/*    background: dimgrey;*/
-/*    margin-top: 0;*/
-/*}*/
-
-/*.search-button:hover {*/
-/*    cursor: pointer;*/
-/*}*/
-/*.gallery {*/
-/*    margin: 60px 20px;*/
-/*    width: 1200px;*/
-
-/*}*/
-/*.card img{*/
-/*    height: 300px;*/
-/*    border-radius: 0 28px 28px 0;*/
-/*    border: 5px white solid;*/
-/*    object-fit: fill;*/
-/*}*/
-
-/*.card img:hover {*/
-/*    width: 600px;*/
-/*    height : 550px;*/
-
-/*}*/
-
-/*.info-recipe a{*/
-/*    text-decoration: none;*/
-/*    color: #2c3e50;*/
-/*    font-size: 26px;*/
-/*}*/
-/*.button.is-light {*/
-/*    background: #aaaaaa;*/
-/*    margin-top: 0;*/
-/*    margin-bottom: 50px;*/
-/*}*/
-/*.button.is-light:hover {*/
-/*    cursor: pointer;*/
-/*}*/
 </style>
